@@ -1,2 +1,2 @@
-# TP1-CG-Galaxie_Game
+# TP1-CG-Galaxie-Game 🛸🔫
 Trabalho 1 para Computação Gráfica
