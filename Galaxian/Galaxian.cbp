@@ -43,13 +43,9 @@
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
 		<Unit filename="estruturasComuns.h" />
-		<Unit filename="fisica.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="fisica.cpp" />
 		<Unit filename="main.cpp" />
-		<Unit filename="telas.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="telas.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
