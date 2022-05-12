@@ -6,7 +6,7 @@
 	<stdlib.h>
 	<stdio.h>
 
-1501501581 c:\program files (x86)\codeblocks\mingw\include\gl\glew.h
+1649333886 c:\program files (x86)\codeblocks\mingw\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -15,11 +15,11 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1426360528 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut.h
+1649333872 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut.h
 	"freeglut_std.h"
 	"freeglut_ext.h"
 
-1426360528 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
+1649333872 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
 	<windows.h>
 	<EGL/egl.h>
 	<GLES/gl.h>
@@ -30,13 +30,25 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1426360528 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_ext.h
+1649333872 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_ext.h
 	<stdarg.h>
 
-1215465208 c:\program files (x86)\codeblocks\mingw\include\soil\soil.h
+1649333894 c:\program files (x86)\codeblocks\mingw\include\soil\soil.h
 
 1652302663 source:c:\users\pablo\desktop\faculdade\computacao grafica\teste\src\bloco.cpp
 	"Bloco.h"
 
 1652302663 c:\users\pablo\desktop\faculdade\computacao grafica\teste\include\bloco.h
+
+1652356162 source:c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\main.cpp
+	<SOIL/SOIL.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<stdlib.h>
+	<stdio.h>
+
+1652356163 source:c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\src\bloco.cpp
+	"Bloco.h"
+
+1652356162 c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\include\bloco.h
 

@@ -21,8 +21,12 @@ GLuint carregaTextura(const char* arquivo) {
 
     return idTextura;
 }
-
-
+//Posição do controle teclado
+struct ponto {
+    float x, y;
+};
+struct ponto posicaoTeclado;
+//Struct de objeto
 typedef struct {
     float x;
     float y;
@@ -33,9 +37,12 @@ typedef struct {
 
 int qtdBlocos = 35;
 bloco blocos[35];
+//ATIRADOR
+bloco atirador;
+
 
 void inicializaInimigos(){
-    float xInicial = 10,yInicial = 500;
+    float xInicial = 10, yInicial = 650;
     float espacamento=15,largura=40,altura=40,x=xInicial,y=yInicial,velocidade=2;
     int qtdColunas = 7;
 
@@ -76,12 +83,6 @@ void desenhaInimigos(){
 }
 
 void desenhaAtirador(){
-    bloco atirador;
-    atirador.altura = 40;
-    atirador.largura = 40;
-    atirador.velocidade = 2;
-    atirador.x = 250;
-    atirador.y = 10;
 
     glBegin(GL_TRIANGLE_FAN);
         glTexCoord2f(0, 0);
@@ -98,7 +99,22 @@ void desenhaAtirador(){
     glEnd();
 }
 
+void atualizaCena(int periodo){
+    atirador.x += (posicaoTeclado.x - atirador.x) / 50.0f;
+    atirador.y += (posicaoTeclado.y - atirador.y) / 50.0f;
+    //Atualizar a tela
+    glutPostRedisplay();
+    glutTimerFunc(periodo, atualizaCena, periodo);
+}
+
 void inicializa() {
+    //Inicializa atirador
+    atirador.altura = 40;
+    atirador.largura = 40;
+    atirador.velocidade = 2;
+    //atirador.x = 250;
+    //atirador.y = 10;
+
     glClearColor(1, 1, 1, 1);
 
     glEnable(GL_BLEND );
@@ -112,16 +128,20 @@ void teclas_de_seta ( int tecla, int x, int y ){
 
   switch ( tecla ) {
     case GLUT_KEY_UP:
-        printf("KEY UP\n");
+        //printf("KEY UP\n");
+        posicaoTeclado.y +=10;
         break;
     case GLUT_KEY_DOWN:
-        printf("KEY DOWN\n");
+        //printf("KEY DOWN\n");
+        posicaoTeclado.y -=10;
         break;
     case GLUT_KEY_LEFT:
-        printf("KEY LEFT\n");
+        //printf("KEY LEFT\n");
+        posicaoTeclado.x -=10;
         break;
     case GLUT_KEY_RIGHT:
-        printf("KEY RIGHT\n");
+        //printf("KEY RIGHT\n");
+        posicaoTeclado.x +=10;
         break;
     default:
 		printf("Teclaram: %d\n", tecla);
@@ -156,7 +176,8 @@ void redimensiona(int w, int h) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //glOrtho(-2, 2, -2, 2, -1.0, 1.0);
-    glOrtho(0, 500, 0, 500, -1.0, 1.0);
+    //glOrtho(0, 500, 0, 500, -1.0, 1.0);
+    glOrtho(0, w, 0, h, -1, 1);
 
     glMatrixMode(GL_MODELVIEW);
 }
@@ -176,10 +197,11 @@ void atualiza() {
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(500, 500);
+    glutInitWindowSize(800, 600);
     glutInitWindowPosition(100, 100);
 
     glutCreateWindow("Carregando textura com SOIL");
+    inicializa();
 
     glutReshapeFunc(redimensiona);
     glutSpecialFunc(teclas_de_seta);
@@ -187,7 +209,8 @@ int main(int argc, char** argv) {
     glutDisplayFunc(desenha);
     glutIdleFunc(atualiza);
 
-    inicializa();
+    //Atualiza a cena
+    glutTimerFunc(0, atualizaCena, 10);
 
     glutMainLoop();
 
