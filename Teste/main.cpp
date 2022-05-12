@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-GLuint idTexturaZumbi,idTexturaAtirador;
+GLuint idTexturaZumbi,idTexturaAtirador, idTexturaDisparo;
 
 GLuint carregaTextura(const char* arquivo) {
     GLuint idTextura = SOIL_load_OGL_texture(
@@ -20,11 +20,7 @@ GLuint carregaTextura(const char* arquivo) {
 
     return idTextura;
 }
-//Posição do controle teclado
-struct ponto {
-    float x, y;
-};
-struct ponto posicaoTeclado;
+
 //Struct de objeto
 typedef struct {
     float x;
@@ -38,6 +34,8 @@ int qtdBlocos = 35;
 bloco blocos[35];
 //ATIRADOR
 bloco atirador;
+bloco municao;
+bool disparou = false;
 
 //Texturas de movimento do atirador
 void movimentoEsquerdoAtirador(){
@@ -110,11 +108,41 @@ void desenhaAtirador(){
     glEnd();
 }
 
+void desenhaDisparo(){
+    if(disparou){
+        if(municao.y <= (500 - municao.altura - municao.velocidade)){
+            municao.y += municao.velocidade;
+        }
+        else{
+            disparou = false;
+            return ;
+        }
+
+        glBegin(GL_TRIANGLE_FAN);
+            glTexCoord2f(0, 0);
+            glVertex3f(municao.x, municao.y, 0.0);
+            glTexCoord2f(1, 0);
+            glVertex3f(municao.x + municao.largura, municao.y, 0.0);
+            glTexCoord2f(1, 1);
+            glVertex3f(municao.x + municao.largura, municao.y + municao.altura, 0.0);
+            glTexCoord2f(0, 1);
+            glVertex3f(municao.x, municao.y + municao.altura, 0.0);
+        glEnd();
+    }
+}
+
+void atirar(){
+    if(!disparou){
+        disparou = true;
+        municao.x = atirador.x + 25;
+        municao.y = atirador.y + atirador.altura +10;
+    }
+}
+
 
 void atualizaCena(int periodo){
-    //atirador.x += (posicaoTeclado.x - atirador.x) / 1.0f;
-    //atirador.y += (posicaoTeclado.y - atirador.y) / 1.0f;
     //Atualizar a tela
+    desenhaDisparo();
     glutPostRedisplay();
     glutTimerFunc(periodo, atualizaCena, periodo);
 }
@@ -127,12 +155,20 @@ void inicializa() {
     atirador.x = 210;
     atirador.y = 10;
 
+    //Inicializa municao
+    municao.altura =  10;
+    municao.largura = 10;
+    municao.velocidade = 0.002;
+    municao.x = 250;
+    municao.y = 70;
+
     glClearColor(1, 1, 1, 1);
 
     glEnable(GL_BLEND );
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     idTexturaZumbi = carregaTextura("zumbi.png");
+    idTexturaDisparo = carregaTextura("municao.jpg");
     movimentoAtirar();
 }
 
@@ -140,14 +176,10 @@ void teclas_de_seta ( int tecla, int x, int y ){
 
   switch ( tecla ) {
     case GLUT_KEY_LEFT:
-        //printf("KEY LEFT\n");
-
-        atirador.x = (atirador.x >= atirador.velocidade)? atirador.x - atirador.velocidade:0;
-
+        atirador.x = (atirador.x >= atirador.velocidade)? atirador.x - atirador.velocidade : 0;
         movimentoEsquerdoAtirador();
         break;
     case GLUT_KEY_RIGHT:
-        //printf("KEY RIGHT\n");
         atirador.x = (atirador.x <= (500 - atirador.largura - atirador.velocidade))? atirador.x + atirador.velocidade : 500 - atirador.largura;
         movimentoDireitoAtirador();
         break;
@@ -165,6 +197,7 @@ void teclado(unsigned char key, int x, int y) {
         case 32:
             //Espaco atira
             movimentoAtirar();
+            atirar();
             break;
     }
 }
@@ -181,9 +214,11 @@ void desenha() {
     inicializaInimigos();
     desenhaInimigos();
 
+    glBindTexture(GL_TEXTURE_2D, idTexturaDisparo);
+    desenhaDisparo();
+
     glBindTexture(GL_TEXTURE_2D, idTexturaAtirador);
     desenhaAtirador();
-
     glDisable(GL_TEXTURE_2D);
 
     glutSwapBuffers();
@@ -194,9 +229,7 @@ void redimensiona(int w, int h) {
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    //glOrtho(-2, 2, -2, 2, -1.0, 1.0);
     glOrtho(0, 500, 0, 500, -1.0, 1.0);
-    //glOrtho(0, w, 0, h, -1, 1);
 
     glMatrixMode(GL_MODELVIEW);
 }
@@ -221,7 +254,7 @@ int main(int argc, char** argv) {
     glutIdleFunc(atualiza);
 
     //Atualiza a cena
-    glutTimerFunc(0, atualizaCena, 10);
+    glutTimerFunc(0, atualizaCena, 30);
 
     glutMainLoop();
 
