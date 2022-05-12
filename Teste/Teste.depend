@@ -1,0 +1,42 @@
+# depslib dependency file v1.0
+1652319206 source:c:\users\pablo\desktop\faculdade\computacao grafica\teste\main.cpp
+	<SOIL/SOIL.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<stdlib.h>
+	<stdio.h>
+
+1501501581 c:\program files (x86)\codeblocks\mingw\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<Availability.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
+1426360528 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut.h
+	"freeglut_std.h"
+	"freeglut_ext.h"
+
+1426360528 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1426360528 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_ext.h
+	<stdarg.h>
+
+1215465208 c:\program files (x86)\codeblocks\mingw\include\soil\soil.h
+
+1652302663 source:c:\users\pablo\desktop\faculdade\computacao grafica\teste\src\bloco.cpp
+	"Bloco.h"
+
+1652302663 c:\users\pablo\desktop\faculdade\computacao grafica\teste\include\bloco.h
+
