@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 GLuint idTexturaZumbi,idTexturaAtirador;
 
 GLuint carregaTextura(const char* arquivo) {
@@ -40,6 +39,22 @@ bloco blocos[35];
 //ATIRADOR
 bloco atirador;
 
+//Texturas de movimento do atirador
+void movimentoEsquerdoAtirador(){
+    idTexturaAtirador = carregaTextura("atirador_movendo.png");
+}
+
+void movimentoDireitoAtirador(){
+    idTexturaAtirador = carregaTextura("atirador_movendo_direita.png");
+}
+
+void movimentoFrontalAtirador(){
+    idTexturaAtirador = carregaTextura("atirador.png");
+}
+
+void atirar(){
+    idTexturaAtirador = carregaTextura("atirando.png");
+}
 
 void inicializaInimigos(){
     float xInicial = 10, yInicial = 650;
@@ -83,6 +98,7 @@ void desenhaInimigos(){
 }
 
 void desenhaAtirador(){
+    movimentoFrontalAtirador();
 
     glBegin(GL_TRIANGLE_FAN);
         glTexCoord2f(0, 0);
@@ -98,6 +114,7 @@ void desenhaAtirador(){
         glVertex3f(atirador.x, atirador.y + atirador.altura, 0.0);
     glEnd();
 }
+
 
 void atualizaCena(int periodo){
     atirador.x += (posicaoTeclado.x - atirador.x) / 50.0f;
@@ -121,7 +138,7 @@ void inicializa() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     idTexturaZumbi = carregaTextura("zumbi.png");
-    idTexturaAtirador = carregaTextura("atirador.png");
+    movimentoFrontalAtirador();
 }
 
 void teclas_de_seta ( int tecla, int x, int y ){
@@ -130,18 +147,22 @@ void teclas_de_seta ( int tecla, int x, int y ){
     case GLUT_KEY_UP:
         //printf("KEY UP\n");
         posicaoTeclado.y +=10;
+        movimentoFrontalAtirador();
         break;
     case GLUT_KEY_DOWN:
         //printf("KEY DOWN\n");
         posicaoTeclado.y -=10;
+        movimentoFrontalAtirador();
         break;
     case GLUT_KEY_LEFT:
         //printf("KEY LEFT\n");
         posicaoTeclado.x -=10;
+        movimentoEsquerdoAtirador();
         break;
     case GLUT_KEY_RIGHT:
         //printf("KEY RIGHT\n");
         posicaoTeclado.x +=10;
+        movimentoDireitoAtirador();
         break;
     default:
 		printf("Teclaram: %d\n", tecla);
@@ -183,10 +204,14 @@ void redimensiona(int w, int h) {
 }
 
 void teclado(unsigned char key, int x, int y) {
-    printf("Pressionou a tecla: %c\n",key);
+
     switch (key) {
         case 27:
             exit(0);
+        case 32:
+            //Espaco atira
+            atirar();
+            break;
     }
 }
 
