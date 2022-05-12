@@ -158,7 +158,7 @@ void inicializa() {
     //Inicializa municao
     municao.altura =  10;
     municao.largura = 10;
-    municao.velocidade = 0.002;
+    municao.velocidade = 0.5;
     municao.x = 250;
     municao.y = 70;
 
