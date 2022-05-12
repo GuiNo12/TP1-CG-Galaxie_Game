@@ -48,16 +48,12 @@ void movimentoDireitoAtirador(){
     idTexturaAtirador = carregaTextura("atirador_movendo_direita.png");
 }
 
-void movimentoFrontalAtirador(){
-    idTexturaAtirador = carregaTextura("atirador.png");
-}
-
-void atirar(){
+void movimentoAtirar(){
     idTexturaAtirador = carregaTextura("atirando.png");
 }
 
 void inicializaInimigos(){
-    float xInicial = 10, yInicial = 650;
+    float xInicial = 10, yInicial = 500;
     float espacamento=15,largura=40,altura=40,x=xInicial,y=yInicial,velocidade=2;
     int qtdColunas = 7;
 
@@ -98,7 +94,6 @@ void desenhaInimigos(){
 }
 
 void desenhaAtirador(){
-    movimentoFrontalAtirador();
 
     glBegin(GL_TRIANGLE_FAN);
         glTexCoord2f(0, 0);
@@ -117,8 +112,8 @@ void desenhaAtirador(){
 
 
 void atualizaCena(int periodo){
-    atirador.x += (posicaoTeclado.x - atirador.x) / 50.0f;
-    atirador.y += (posicaoTeclado.y - atirador.y) / 50.0f;
+    //atirador.x += (posicaoTeclado.x - atirador.x) / 1.0f;
+    //atirador.y += (posicaoTeclado.y - atirador.y) / 1.0f;
     //Atualizar a tela
     glutPostRedisplay();
     glutTimerFunc(periodo, atualizaCena, periodo);
@@ -128,9 +123,9 @@ void inicializa() {
     //Inicializa atirador
     atirador.altura = 40;
     atirador.largura = 40;
-    atirador.velocidade = 2;
-    //atirador.x = 250;
-    //atirador.y = 10;
+    atirador.velocidade = 10;
+    atirador.x = 210;
+    atirador.y = 10;
 
     glClearColor(1, 1, 1, 1);
 
@@ -138,30 +133,22 @@ void inicializa() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     idTexturaZumbi = carregaTextura("zumbi.png");
-    movimentoFrontalAtirador();
+    movimentoAtirar();
 }
 
 void teclas_de_seta ( int tecla, int x, int y ){
 
   switch ( tecla ) {
-    case GLUT_KEY_UP:
-        //printf("KEY UP\n");
-        posicaoTeclado.y +=10;
-        movimentoFrontalAtirador();
-        break;
-    case GLUT_KEY_DOWN:
-        //printf("KEY DOWN\n");
-        posicaoTeclado.y -=10;
-        movimentoFrontalAtirador();
-        break;
     case GLUT_KEY_LEFT:
         //printf("KEY LEFT\n");
-        posicaoTeclado.x -=10;
+
+        atirador.x = (atirador.x >= atirador.velocidade)? atirador.x - atirador.velocidade:0;
+
         movimentoEsquerdoAtirador();
         break;
     case GLUT_KEY_RIGHT:
         //printf("KEY RIGHT\n");
-        posicaoTeclado.x +=10;
+        atirador.x = (atirador.x <= (500 - atirador.largura - atirador.velocidade))? atirador.x + atirador.velocidade : 500 - atirador.largura;
         movimentoDireitoAtirador();
         break;
     default:
@@ -170,6 +157,17 @@ void teclas_de_seta ( int tecla, int x, int y ){
   }
 }
 
+void teclado(unsigned char key, int x, int y) {
+
+    switch (key) {
+        case 27:
+            exit(0);
+        case 32:
+            //Espaco atira
+            movimentoAtirar();
+            break;
+    }
+}
 
 void desenha() {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -197,22 +195,10 @@ void redimensiona(int w, int h) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     //glOrtho(-2, 2, -2, 2, -1.0, 1.0);
-    //glOrtho(0, 500, 0, 500, -1.0, 1.0);
-    glOrtho(0, w, 0, h, -1, 1);
+    glOrtho(0, 500, 0, 500, -1.0, 1.0);
+    //glOrtho(0, w, 0, h, -1, 1);
 
     glMatrixMode(GL_MODELVIEW);
-}
-
-void teclado(unsigned char key, int x, int y) {
-
-    switch (key) {
-        case 27:
-            exit(0);
-        case 32:
-            //Espaco atira
-            atirar();
-            break;
-    }
 }
 
 void atualiza() {
@@ -222,7 +208,7 @@ void atualiza() {
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(800, 600);
+    glutInitWindowSize(500, 500);
     glutInitWindowPosition(100, 100);
 
     glutCreateWindow("Carregando textura com SOIL");
