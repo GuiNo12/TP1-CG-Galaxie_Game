@@ -18,14 +18,14 @@
 				</Compiler>
 				<Linker>
 					<Add option="-lSOIL" />
-					<Add library="../../../../../../Windows/System32/freeglut.dll" />
-					<Add library="../../../../../../Windows/System32/winmm.dll" />
-					<Add library="../../../../../../Windows/System32/gdi32.dll" />
-					<Add library="../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/glew32.lib" />
-					<Add library="../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/glew32s.lib" />
-					<Add library="../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/libfreeglut.a" />
-					<Add library="../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/libfreeglut_static.a" />
-					<Add library="../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/libSOIL.a" />
+					<Add library="..\..\..\..\..\Windows\System32\freeglut.dll" />
+					<Add library="..\..\..\..\..\..\Windows\System32\winmm.dll" />
+					<Add library="..\..\..\..\..\..\Windows\System32\gdi32.dll" />
+					<Add library="..\..\..\..\..\..\Program Files (x86)\CodeBlocks\MinGW\lib\glew32.lib" />
+					<Add library="..\..\..\..\..\..\Program Files (x86)\CodeBlocks\MinGW\lib\glew32s.lib" />
+					<Add library="..\..\..\..\..\..\Program Files (x86)\CodeBlocks\MinGW\lib\libfreeglut.a" />
+					<Add library="..\..\..\..\..\..\Program Files (x86)\CodeBlocks\MinGW\lib\libfreeglut_static.a" />
+					<Add library="..\..\..\..\..\..\Program Files (x86)\CodeBlocks\MinGW\lib\libSOIL.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -58,6 +58,10 @@
 		<Unit filename="include/Bloco.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Bloco.cpp" />
-		<Extensions />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

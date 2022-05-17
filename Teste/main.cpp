@@ -28,13 +28,14 @@ typedef struct {
     float altura;
     float largura;
     float velocidade;
-} bloco;
+} Bloco;
 
-int qtdBlocos = 35;
-bloco blocos[35];
+int qtdzumbis = 35;
+Bloco zumbis[35];
+
 //ATIRADOR
-bloco atirador;
-bloco municao;
+Bloco atirador;
+Bloco municao;
 bool disparou = false;
 
 //Texturas de movimento do atirador
@@ -50,49 +51,80 @@ void movimentoAtirar(){
     idTexturaAtirador = carregaTextura("atirando.png");
 }
 
+void inicializa() {
+    //Inicializa atirador
+    atirador.altura = 40;
+    atirador.largura = 40;
+    atirador.velocidade = 10;
+    atirador.x = 210;
+    atirador.y = 10;
+
+    //Inicializa municao
+    municao.altura =  10;
+    municao.largura = 10;
+    municao.velocidade = 0.5;
+    municao.x = 250;
+    municao.y = 70;
+
+    glClearColor(1, 1, 1, 1);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    idTexturaZumbi = carregaTextura("zumbi.png");
+    idTexturaDisparo = carregaTextura("municao.jpg");
+    movimentoAtirar();
+}
+
 void inicializaInimigos(){
     float xInicial = 10, yInicial = 500;
     float espacamento=15,largura=40,altura=40,x=xInicial,y=yInicial,velocidade=2;
     int qtdColunas = 7;
 
-    for(int i = 0; i < qtdBlocos; i++){
+    for(int i = 0; i < qtdzumbis; i++){
         if(i % qtdColunas == 0){
             x = xInicial;
             y = y - espacamento - altura;
         }
 
-        blocos[i].x = x;
-        blocos[i].y = y;
-        blocos[i].altura = altura;
-        blocos[i].largura = largura;
-        blocos[i].velocidade = velocidade;
+        zumbis[i].x = x;
+        zumbis[i].y = y;
+        zumbis[i].altura = altura;
+        zumbis[i].largura = largura;
+        zumbis[i].velocidade = velocidade;
 
         x = x + espacamento + largura;
     }
 }
 
+bool colisao(float Ax, float Ay, float Alarg, float Aalt, float Bx, float By, float Blarg, float Balt) {
+    if(Ay + Aalt < By) return false;
+    else if(Ay > By+Balt) return false;
+    else if(Ax+Alarg < Bx) return false;
+    else if(Ax > Bx+Blarg) return false;
+
+    return true;
+}
+
 void desenhaInimigos(){
-    for(int i = 0; i < qtdBlocos; i++){
+    for(int i = 0; i < qtdzumbis; i++){
         glBegin(GL_TRIANGLE_FAN);
             glTexCoord2f(0, 0);
-            glVertex3f(blocos[i].x, blocos[i].y, 0.0);
+            glVertex3f(zumbis[i].x, zumbis[i].y, 0.0);
 
             glTexCoord2f(1, 0);
-            glVertex3f(blocos[i].x + blocos[i].largura, blocos[i].y, 0.0);
+            glVertex3f(zumbis[i].x + zumbis[i].largura, zumbis[i].y, 0.0);
 
             glTexCoord2f(1, 1);
-            glVertex3f(blocos[i].x + blocos[i].largura, blocos[i].y + blocos[i].altura, 0.0);
+            glVertex3f(zumbis[i].x + zumbis[i].largura, zumbis[i].y + zumbis[i].altura, 0.0);
 
             glTexCoord2f(0, 1);
-            glVertex3f(blocos[i].x, blocos[i].y + blocos[i].altura, 0.0);
+            glVertex3f(zumbis[i].x, zumbis[i].y + zumbis[i].altura, 0.0);
         glEnd();
     }
-
-
 }
 
 void desenhaAtirador(){
-
     glBegin(GL_TRIANGLE_FAN);
         glTexCoord2f(0, 0);
         glVertex3f(atirador.x, atirador.y, 0.0);
@@ -112,6 +144,14 @@ void desenhaDisparo(){
     if(disparou){
         if(municao.y <= (500 - municao.altura - municao.velocidade)){
             municao.y += municao.velocidade;
+            for(int i = 0; i < qtdzumbis; i++){
+                if(colisao(municao.x, municao.y, municao.largura, municao.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
+                    printf("Colidiu %d\n", i);
+                    zumbis[i].x += 1000;
+                    zumbis[i].y += 1000;
+                    break;
+                }
+            }
         }
         else{
             disparou = false;
@@ -139,7 +179,6 @@ void atirar(){
     }
 }
 
-
 void atualizaCena(int periodo){
     //Atualizar a tela
     desenhaDisparo();
@@ -147,33 +186,7 @@ void atualizaCena(int periodo){
     glutTimerFunc(periodo, atualizaCena, periodo);
 }
 
-void inicializa() {
-    //Inicializa atirador
-    atirador.altura = 40;
-    atirador.largura = 40;
-    atirador.velocidade = 10;
-    atirador.x = 210;
-    atirador.y = 10;
-
-    //Inicializa municao
-    municao.altura =  10;
-    municao.largura = 10;
-    municao.velocidade = 0.5;
-    municao.x = 250;
-    municao.y = 70;
-
-    glClearColor(1, 1, 1, 1);
-
-    glEnable(GL_BLEND );
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    idTexturaZumbi = carregaTextura("zumbi.png");
-    idTexturaDisparo = carregaTextura("municao.jpg");
-    movimentoAtirar();
-}
-
-void teclas_de_seta ( int tecla, int x, int y ){
-
+void teclas_de_seta (int tecla, int x, int y ){
   switch ( tecla ) {
     case GLUT_KEY_LEFT:
         atirador.x = (atirador.x >= atirador.velocidade)? atirador.x - atirador.velocidade : 0;
@@ -190,7 +203,6 @@ void teclas_de_seta ( int tecla, int x, int y ){
 }
 
 void teclado(unsigned char key, int x, int y) {
-
     switch (key) {
         case 27:
             exit(0);
