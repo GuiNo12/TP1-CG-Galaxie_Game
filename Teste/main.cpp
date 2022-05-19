@@ -28,6 +28,7 @@ typedef struct {
     float altura;
     float largura;
     float velocidade;
+    bool visivel;
 } Bloco;
 
 int qtdzumbis = 35;
@@ -92,6 +93,7 @@ void inicializaInimigos(){
         zumbis[i].altura = altura;
         zumbis[i].largura = largura;
         zumbis[i].velocidade = velocidade;
+        zumbis[i].visivel = true;
 
         x = x + espacamento + largura;
     }
@@ -107,8 +109,10 @@ bool colisao(float Ax, float Ay, float Alarg, float Aalt, float Bx, float By, fl
 }
 
 void desenhaInimigos(){
+
     for(int i = 0; i < qtdzumbis; i++){
-        glBegin(GL_TRIANGLE_FAN);
+        if(zumbis[i].visivel){
+            glBegin(GL_TRIANGLE_FAN);
             glTexCoord2f(0, 0);
             glVertex3f(zumbis[i].x, zumbis[i].y, 0.0);
 
@@ -121,6 +125,8 @@ void desenhaInimigos(){
             glTexCoord2f(0, 1);
             glVertex3f(zumbis[i].x, zumbis[i].y + zumbis[i].altura, 0.0);
         glEnd();
+            }
+
     }
 }
 
@@ -145,12 +151,15 @@ void desenhaDisparo(){
         if(municao.y <= (500 - municao.altura - municao.velocidade)){
             municao.y += municao.velocidade;
             for(int i = 0; i < qtdzumbis; i++){
-                if(colisao(municao.x, municao.y, municao.largura, municao.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
-                    printf("Colidiu %d\n", i);
-                    zumbis[i].x += 1000;
-                    zumbis[i].y += 1000;
-                    break;
-                }
+                if(zumbis[i].visivel)
+                    if(colisao(municao.x, municao.y, municao.largura, municao.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
+                        printf("Colidiu %d\n", i);
+                        //zumbis[i].x += 1000;
+                        //zumbis[i].y += 1000;
+                        disparou = false;
+                        zumbis[i].visivel = false;
+                        break;
+                    }
             }
         }
         else{
@@ -223,7 +232,7 @@ void desenha() {
 
     // Começa a usar a textura que criamos
     glBindTexture(GL_TEXTURE_2D, idTexturaZumbi);
-    inicializaInimigos();
+
     desenhaInimigos();
 
     glBindTexture(GL_TEXTURE_2D, idTexturaDisparo);
@@ -258,6 +267,7 @@ int main(int argc, char** argv) {
 
     glutCreateWindow("Carregando textura com SOIL");
     inicializa();
+    inicializaInimigos();
 
     glutReshapeFunc(redimensiona);
     glutSpecialFunc(teclas_de_seta);
