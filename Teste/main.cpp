@@ -3,6 +3,10 @@
 #include <GL/freeglut.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <irrKlang.h>
+
+using namespace irrklang;
+ISoundEngine *SoundEngine = createIrrKlangDevice();
 
 GLuint idTexturaZumbi,idTexturaAtirador, idTexturaDisparo;
 
@@ -185,6 +189,7 @@ void atirar(){
         disparou = true;
         municao.x = atirador.x + 25;
         municao.y = atirador.y + atirador.altura +10;
+        SoundEngine->play2D("gun-shot.mp3", false);
     }
 }
 
