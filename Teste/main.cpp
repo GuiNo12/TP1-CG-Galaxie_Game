@@ -108,7 +108,7 @@ bool colisao(float Ax, float Ay, float Alarg, float Aalt, float Bx, float By, fl
     else if(Ay > By+Balt) return false;
     else if(Ax+Alarg < Bx) return false;
     else if(Ax > Bx+Blarg) return false;
-
+    SoundEngine->play2D("gun-hit.mp3", false);
     return true;
 }
 
@@ -273,6 +273,7 @@ int main(int argc, char** argv) {
     glutCreateWindow("Carregando textura com SOIL");
     inicializa();
     inicializaInimigos();
+    SoundEngine->play2D("soundtrack.mp3", true);
 
     glutReshapeFunc(redimensiona);
     glutSpecialFunc(teclas_de_seta);
