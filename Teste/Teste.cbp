@@ -26,6 +26,10 @@
 					<Add library="../../../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/libfreeglut.a" />
 					<Add library="../../../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/libfreeglut_static.a" />
 					<Add library="../../../../../../../../Program Files (x86)/CodeBlocks/MinGW/lib/libSOIL.a" />
+					<Add library="bin/Debug/libirrKlang.a" />
+					<Add library="bin/Debug/irrKlang.dll" />
+					<Add library="bin/Debug/ikpMP3.dll" />
+					<Add library="bin/Debug/ikpFlac.dll" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -53,6 +57,7 @@
 			<Add library="glu32" />
 			<Add library="winmm" />
 			<Add library="gdi32" />
+			<Add library="bin/Debug/irrKlang.dll" />
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
 		<Unit filename="include/Bloco.h" />
