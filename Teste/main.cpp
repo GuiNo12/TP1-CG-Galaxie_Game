@@ -35,23 +35,29 @@ typedef struct {
     bool visivel;
 } Bloco;
 
+
+//VARIAVEIS GLOBAIS--------------
 int qtdzumbis = 35;
 Bloco zumbis[35];
-
-//ATIRADOR
 Bloco atirador;
 Bloco municao;
-bool disparou = false;
+bool pausado = false, disparou = false;
 
 //Texturas de movimento do atirador
 void movimentoEsquerdoAtirador(){
     idTexturaAtirador = carregaTextura("atirador_movendo.png");
 }
-
 void movimentoDireitoAtirador(){
     idTexturaAtirador = carregaTextura("atirador_movendo_direita.png");
 }
 
+//Efeitos Sonoros
+void gunHitSound(){
+    SoundEngine->play2D("gun-hit.mp3", false);
+}
+void soundTrack(){
+    SoundEngine->play2D("soundtrack.mp3", true);
+}
 void movimentoAtirar(){
     idTexturaAtirador = carregaTextura("atirando.png");
 }
@@ -108,7 +114,7 @@ bool colisao(float Ax, float Ay, float Alarg, float Aalt, float Bx, float By, fl
     else if(Ay > By+Balt) return false;
     else if(Ax+Alarg < Bx) return false;
     else if(Ax > Bx+Blarg) return false;
-    SoundEngine->play2D("gun-hit.mp3", false);
+    gunHitSound();
     return true;
 }
 
@@ -201,19 +207,21 @@ void atualizaCena(int periodo){
 }
 
 void teclas_de_seta (int tecla, int x, int y ){
-  switch ( tecla ) {
-    case GLUT_KEY_LEFT:
-        atirador.x = (atirador.x >= atirador.velocidade)? atirador.x - atirador.velocidade : 0;
-        movimentoEsquerdoAtirador();
-        break;
-    case GLUT_KEY_RIGHT:
-        atirador.x = (atirador.x <= (500 - atirador.largura - atirador.velocidade))? atirador.x + atirador.velocidade : 500 - atirador.largura;
-        movimentoDireitoAtirador();
-        break;
-    default:
-		printf("Teclaram: %d\n", tecla);
-      break;
-  }
+    if(!pausado){
+        switch ( tecla ) {
+        case GLUT_KEY_LEFT:
+            atirador.x = (atirador.x >= atirador.velocidade)? atirador.x - atirador.velocidade : 0;
+            movimentoEsquerdoAtirador();
+            break;
+        case GLUT_KEY_RIGHT:
+            atirador.x = (atirador.x <= (500 - atirador.largura - atirador.velocidade))? atirador.x + atirador.velocidade : 500 - atirador.largura;
+            movimentoDireitoAtirador();
+            break;
+        default:
+            printf("Teclaram: %d\n", tecla);
+          break;
+      }
+    }
 }
 
 void teclado(unsigned char key, int x, int y) {
@@ -222,9 +230,22 @@ void teclado(unsigned char key, int x, int y) {
             exit(0);
         case 32:
             //Espaco atira
-            movimentoAtirar();
-            atirar();
-            break;
+            if(!pausado){
+                movimentoAtirar();
+                atirar();
+                break;
+            }
+            else
+                break;
+        case 112:
+            if(!pausado){
+                pausado = true;
+                break;
+            }
+            if(pausado){
+                pausado = false;
+                break;
+            }
     }
 }
 
@@ -270,10 +291,11 @@ int main(int argc, char** argv) {
     glutInitWindowSize(500, 500);
     glutInitWindowPosition(100, 100);
 
-    glutCreateWindow("Carregando textura com SOIL");
+    glutCreateWindow("Zombie Kill!");
     inicializa();
     inicializaInimigos();
-    SoundEngine->play2D("soundtrack.mp3", true);
+
+    soundTrack();
 
     glutReshapeFunc(redimensiona);
     glutSpecialFunc(teclas_de_seta);
