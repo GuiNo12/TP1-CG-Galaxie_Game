@@ -13,8 +13,11 @@ Dentro desta pasta que você copiou existe o arquivo irrKlang.h, copie para Test
 Dentro da pasta irrKlang-1.5.0 no git, copie o arquivo irrKlang.lib para ArquivosdeProgramas/Codeblocks/MinGW/lib
 
 No CodeBlocks, clique com o botão direito no nome do projeto e em Bild Options
+
 ![image](https://user-images.githubusercontent.com/93343614/169708904-2c6c1f58-b7ae-4a84-bef9-14fa625ea806.png)
+
 Em Linker settings, adicione os caminhos para os arquivos abaixo que estão em Teste/bin/Debug
+
 ![image](https://user-images.githubusercontent.com/93343614/169708954-fe9f9142-3bed-43a1-9abe-8195a7270fc8.png)
 
 Com isso, a biblioteca estará instalada
