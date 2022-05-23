@@ -6,6 +6,7 @@
 #include <irrKlang.h>
 
 using namespace irrklang;
+
 ISoundEngine *SoundEngine = createIrrKlangDevice();
 
 GLuint idTexturaZumbi,idTexturaAtirador, idTexturaDisparo;
@@ -35,13 +36,31 @@ typedef struct {
     bool visivel;
 } Bloco;
 
+typedef struct {
+    float xMin;
+    float xMax;
+    float quantidadeDescidaMax;
+} AreaMovimento;
+
+typedef struct {
+    float x;
+    float y;
+    float qtdDescida;
+    float velocidade;
+    int tipoMovimento;
+} MovimentoPadrao;
+
+AreaMovimento areaMovimento = {5,115,15};
+MovimentoPadrao movimentoPadrao = {10,0,0,1,0};
 
 //VARIAVEIS GLOBAIS--------------
 int qtdzumbis = 35;
-Bloco zumbis[35];
+Bloco posicaoInicialZumbis[35],zumbis[35];
 Bloco atirador;
 Bloco municao;
+
 bool pausado = false, disparou = false;
+
 
 //Texturas de movimento do atirador
 void movimentoEsquerdoAtirador(){
@@ -49,6 +68,51 @@ void movimentoEsquerdoAtirador(){
 }
 void movimentoDireitoAtirador(){
     idTexturaAtirador = carregaTextura("atirador_movendo_direita.png");
+}
+
+
+void movimentoInimigo(){
+    if( movimentoPadrao.tipoMovimento == 0){ // tipoMovimento == 0 -> zumbi vai para direita
+        if(movimentoPadrao.x <= areaMovimento.xMax){
+            movimentoPadrao.x += movimentoPadrao.velocidade; // vai para direita
+        }else{
+            movimentoPadrao.tipoMovimento = 1;
+            movimentoPadrao.y -= movimentoPadrao.velocidade; // vai para baixo
+            movimentoPadrao.qtdDescida += movimentoPadrao.velocidade;
+        }
+    }else if(movimentoPadrao.tipoMovimento == 1 ){ // tipoMovimento == 1 -> zumbi vai para baixo
+        if(movimentoPadrao.qtdDescida < areaMovimento.quantidadeDescidaMax){
+            movimentoPadrao.y -= movimentoPadrao.velocidade; // vai para baixo
+            movimentoPadrao.qtdDescida += movimentoPadrao.velocidade;
+        }else{
+            movimentoPadrao.qtdDescida = 0;
+            movimentoPadrao.tipoMovimento = 2;
+            movimentoPadrao.x += movimentoPadrao.velocidade; // vai para esquerda
+        }
+    }else if(movimentoPadrao.tipoMovimento == 2){
+        if(movimentoPadrao.x > areaMovimento.xMin){
+            movimentoPadrao.x -= movimentoPadrao.velocidade;// vai para esquerda
+        }else{
+            movimentoPadrao.tipoMovimento = 3;
+            movimentoPadrao.x += movimentoPadrao.velocidade; // vai para direita
+        }
+    }else{
+        if(movimentoPadrao.qtdDescida < areaMovimento.quantidadeDescidaMax){
+            movimentoPadrao.y -= movimentoPadrao.velocidade; // vai para baixo
+            movimentoPadrao.qtdDescida += movimentoPadrao.velocidade;
+        }else{
+            movimentoPadrao.qtdDescida = 0;
+            movimentoPadrao.tipoMovimento = 0;
+            movimentoPadrao.x += movimentoPadrao.velocidade; // vai para esquerda
+        }
+    }
+
+    for(int i = qtdzumbis-1; i > -1; i--)
+        if(zumbis[i].visivel){
+            zumbis[i].x = posicaoInicialZumbis[i].x + movimentoPadrao.x;
+            zumbis[i].y = posicaoInicialZumbis[i].y + movimentoPadrao.y;
+        }
+
 }
 
 //Efeitos Sonoros
@@ -62,34 +126,26 @@ void movimentoAtirar(){
     idTexturaAtirador = carregaTextura("atirando.png");
 }
 
-void inicializa() {
+void inicializaAtirador(Bloco &blocoAtirador){
     //Inicializa atirador
-    atirador.altura = 40;
-    atirador.largura = 40;
-    atirador.velocidade = 10;
-    atirador.x = 210;
-    atirador.y = 10;
+    blocoAtirador.altura = 40;
+    blocoAtirador.largura = 40;
+    blocoAtirador.velocidade = 10;
+    blocoAtirador.x = 210;
+    blocoAtirador.y = 10;
+}
 
-    //Inicializa municao
-    municao.altura =  10;
-    municao.largura = 10;
-    municao.velocidade = 0.5;
-    municao.x = 250;
-    municao.y = 70;
-
-    glClearColor(1, 1, 1, 1);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    idTexturaZumbi = carregaTextura("zumbi.png");
-    idTexturaDisparo = carregaTextura("municao.jpg");
-    movimentoAtirar();
+void inicializaMunicao(Bloco &blocoMunicao){
+    blocoMunicao.altura = 10;
+    blocoMunicao.largura = 10;
+    blocoMunicao.velocidade = 0.5;
+    blocoMunicao.x = 250;
+    blocoMunicao.y = 70;
 }
 
 void inicializaInimigos(){
-    float xInicial = 10, yInicial = 500;
-    float espacamento=15,largura=40,altura=40,x=xInicial,y=yInicial,velocidade=2;
+    float xInicial =5, yInicial = 500;
+    float espacamento=15,largura=40,altura=40,x=xInicial,y=yInicial,velocidade=0.2;
     int qtdColunas = 7;
 
     for(int i = 0; i < qtdzumbis; i++){
@@ -97,6 +153,9 @@ void inicializaInimigos(){
             x = xInicial;
             y = y - espacamento - altura;
         }
+
+        posicaoInicialZumbis[i].x = x;
+        posicaoInicialZumbis[i].y = y;
 
         zumbis[i].x = x;
         zumbis[i].y = y;
@@ -109,6 +168,21 @@ void inicializaInimigos(){
     }
 }
 
+void inicializa() {
+    inicializaAtirador(atirador);
+    inicializaMunicao(municao);
+    inicializaInimigos();
+
+    glClearColor(1, 1, 1, 1);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    idTexturaZumbi = carregaTextura("zumbi.png");
+    idTexturaDisparo = carregaTextura("municao.jpg");
+    movimentoAtirar();
+}
+
 bool colisao(float Ax, float Ay, float Alarg, float Aalt, float Bx, float By, float Blarg, float Balt) {
     if(Ay + Aalt < By) return false;
     else if(Ay > By+Balt) return false;
@@ -119,24 +193,22 @@ bool colisao(float Ax, float Ay, float Alarg, float Aalt, float Bx, float By, fl
 }
 
 void desenhaInimigos(){
-
     for(int i = 0; i < qtdzumbis; i++){
         if(zumbis[i].visivel){
             glBegin(GL_TRIANGLE_FAN);
-            glTexCoord2f(0, 0);
-            glVertex3f(zumbis[i].x, zumbis[i].y, 0.0);
+                glTexCoord2f(0, 0);
+                glVertex3f(zumbis[i].x, zumbis[i].y, 0.0);
 
-            glTexCoord2f(1, 0);
-            glVertex3f(zumbis[i].x + zumbis[i].largura, zumbis[i].y, 0.0);
+                glTexCoord2f(1, 0);
+                glVertex3f(zumbis[i].x + zumbis[i].largura, zumbis[i].y, 0.0);
 
-            glTexCoord2f(1, 1);
-            glVertex3f(zumbis[i].x + zumbis[i].largura, zumbis[i].y + zumbis[i].altura, 0.0);
+                glTexCoord2f(1, 1);
+                glVertex3f(zumbis[i].x + zumbis[i].largura, zumbis[i].y + zumbis[i].altura, 0.0);
 
-            glTexCoord2f(0, 1);
-            glVertex3f(zumbis[i].x, zumbis[i].y + zumbis[i].altura, 0.0);
-        glEnd();
-            }
-
+                glTexCoord2f(0, 1);
+                glVertex3f(zumbis[i].x, zumbis[i].y + zumbis[i].altura, 0.0);
+            glEnd();
+        }
     }
 }
 
@@ -163,9 +235,6 @@ void desenhaDisparo(){
             for(int i = 0; i < qtdzumbis; i++){
                 if(zumbis[i].visivel)
                     if(colisao(municao.x, municao.y, municao.largura, municao.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
-                        printf("Colidiu %d\n", i);
-                        //zumbis[i].x += 1000;
-                        //zumbis[i].y += 1000;
                         disparou = false;
                         zumbis[i].visivel = false;
                         break;
@@ -201,7 +270,11 @@ void atirar(){
 
 void atualizaCena(int periodo){
     //Atualizar a tela
-    desenhaDisparo();
+    if(!pausado){
+        movimentoInimigo();
+        desenhaDisparo();
+    }
+
     glutPostRedisplay();
     glutTimerFunc(periodo, atualizaCena, periodo);
 }
@@ -292,8 +365,8 @@ int main(int argc, char** argv) {
     glutInitWindowPosition(100, 100);
 
     glutCreateWindow("Zombie Kill!");
+
     inicializa();
-    inicializaInimigos();
 
     soundTrack();
 
