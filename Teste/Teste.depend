@@ -390,13 +390,15 @@
 	"ik_IRefCounted.h"
 	"ik_ISoundSource.h"
 
-1653267800 source:c:\users\pablo\desktop\tp1-cg-galaxie_game\teste\main.cpp
+1653335705 source:c:\users\pablo\desktop\tp1-cg-galaxie_game\teste\main.cpp
 	<SOIL/SOIL.h>
 	<GL/glew.h>
 	<GL/freeglut.h>
 	<stdlib.h>
 	<stdio.h>
 	<irrKlang.h>
+	"Bloco.h"
+	"MovimentoPadrao.h"
 
 1653262508 c:\users\pablo\desktop\tp1-cg-galaxie_game\teste\include\irrklang.h
 	"ik_irrKlangTypes.h"
@@ -420,8 +422,13 @@
 	"ik_IAudioRecorder.h"
 	"ik_ISoundMixedOutputReceiver.h"
 
-1653262508 source:c:\users\pablo\desktop\tp1-cg-galaxie_game\teste\src\bloco.cpp
+1653336992 source:c:\users\pablo\desktop\tp1-cg-galaxie_game\teste\src\bloco.cpp
 	"Bloco.h"
 
-1653262508 c:\users\pablo\desktop\tp1-cg-galaxie_game\teste\include\bloco.h
+1653337019 c:\users\pablo\desktop\tp1-cg-galaxie_game\teste\include\bloco.h
+
+1653337326 source:c:\users\pablo\desktop\tp1-cg-galaxie_game\teste\src\movimentopadrao.cpp
+	"MovimentoPadrao.h"
+
+1653337170 c:\users\pablo\desktop\tp1-cg-galaxie_game\teste\include\movimentopadrao.h
 
