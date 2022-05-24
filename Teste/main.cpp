@@ -12,7 +12,6 @@
 using namespace irrklang;
 
 //VARIAVEIS GLOBAIS--------------
-
 ISoundEngine *SoundEngine = createIrrKlangDevice();
 
 GLuint idTexturaZumbi, idTexturaAtirador, idTexturaDisparo, idTexturaFundo;
@@ -25,8 +24,9 @@ int qtdzumbis = 35, fase = 1;
 Bloco atirador, municao, posicaoInicialZumbis[35], zumbis[35];
 Bloco fundo = {0,0,600,600,0,true};
 
+char textoFase[8];
 
-bool pausado = false, disparou = false, reiniciar = false;
+bool pausado = true, disparou = false, reiniciar = false;
 int pontuacao = 0;
 
 
@@ -45,14 +45,14 @@ GLuint carregaTextura(const char* arquivo) {
     return idTextura;
 }
 
-/*void escreveTexto(void *font, char *s, float x, float y, float z){
+void escreveTexto(void * font, char *s, float x, float y, float z) {
     int i;
     glRasterPos3f(x, y, z);
 
     for (i = 0; i < strlen(s); i++) {
         glutBitmapCharacter(font, s[i]);
     }
-}*/
+}
 
 //Texturas de movimento do atirador
 void movimentoEsquerdoAtirador(){
@@ -164,7 +164,7 @@ void desenhaInimigos(){
 void novaFase(){
     fase += 1;
     inicializaInimigos();
-    movimentoPadrao.velocidade += fase*0.05;
+    movimentoPadrao.velocidade += fase*0.1;
     printf("Fase: %d, velocidade: %f\n",fase,movimentoPadrao.velocidade);
 }
 
@@ -205,6 +205,15 @@ void atirar(){
     }
 }
 
+//Escreve texto na tela pausada
+void textoTelaPause(){
+    if(pausado){
+        escreveTexto(GLUT_BITMAP_TIMES_ROMAN_24, "       Zombie Kill!", 200, 300, 0);
+        escreveTexto(GLUT_BITMAP_HELVETICA_18,   "Use <-, -> para controle", 200, 280, 0);
+        escreveTexto(GLUT_BITMAP_HELVETICA_18,   "    (P) para play/pause", 200, 260, 0);
+    }
+}
+
 void desenha() {
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f (1, 1, 1);
@@ -224,6 +233,11 @@ void desenha() {
     desenhaBloco(atirador);
 
     glDisable(GL_TEXTURE_2D);
+
+    textoTelaPause();
+    //Mostra a fase atual
+    sprintf(textoFase, "Fase: %d", fase);
+    escreveTexto(GLUT_BITMAP_HELVETICA_18, textoFase, 5, 5, 0);
 
     glutSwapBuffers();
 }

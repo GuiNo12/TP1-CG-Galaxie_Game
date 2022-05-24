@@ -61,8 +61,10 @@
 			<Add directory="C:/Program Files (x86)/CodeBlocks/MinGW/lib" />
 		</Linker>
 		<Unit filename="include/Bloco.h" />
+		<Unit filename="include/MovimentoPadrao.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Bloco.cpp" />
+		<Unit filename="src/MovimentoPadrao.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
