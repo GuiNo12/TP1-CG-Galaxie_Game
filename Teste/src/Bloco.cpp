@@ -9,12 +9,20 @@ void inicializaAtirador(Bloco &blocoAtirador){
     blocoAtirador.y = 10;
 }
 
-void inicializaMunicao(Bloco &blocoMunicao){
+void inicializaMunicaoJogador(Bloco &blocoMunicao){
     blocoMunicao.altura = 10;
     blocoMunicao.largura = 10;
     blocoMunicao.velocidade = 1;
     blocoMunicao.x = 250;
     blocoMunicao.y = 70;
+}
+
+void inicializaMunicaoZumbi(Bloco &blocoMunicao){
+    blocoMunicao.altura = 10;
+    blocoMunicao.largura = 10;
+    blocoMunicao.velocidade = 1;
+    blocoMunicao.x = 250;
+    blocoMunicao.y = 250;
 }
 
 bool blocosApagados(Bloco blocos[],int quantidade){

@@ -11,7 +11,8 @@ typedef struct {
 } Bloco;
 
 void inicializaAtirador(Bloco &blocoAtirador);
-void inicializaMunicao(Bloco &blocoMunicao);
+void inicializaMunicaoJogador(Bloco &blocoMunicao);
+void inicializaMunicaoZumbi(Bloco &blocoMunicao);
 bool blocosApagados(Bloco blocos[],int quantidade);
 
 #endif // BLOCO_H
