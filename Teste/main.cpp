@@ -165,7 +165,7 @@ void novaFase(){
     fase += 1;
     inicializaInimigos();
     movimentoPadrao.velocidade += fase*0.1;
-    printf("Fase: %d, velocidade: %f\n",fase,movimentoPadrao.velocidade);
+    //printf("Fase: %d, velocidade: %f\n",fase,movimentoPadrao.velocidade);
 }
 
 void desenhaDisparo(){
@@ -214,6 +214,17 @@ void textoTelaPause(){
     }
 }
 
+void verificaFimJogo(){
+    for(int i = 0; i < qtdzumbis; i++){
+        if( zumbis[i].visivel ){
+            if(((zumbis[i].y - zumbis[i].altura) == 0)){
+                pausado = true;
+                escreveTexto(GLUT_BITMAP_TIMES_ROMAN_24,   "Game Over", 250, 330, 0);
+            }
+        }
+    }
+}
+
 void desenha() {
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f (1, 1, 1);
@@ -231,13 +242,14 @@ void desenha() {
 
     glBindTexture(GL_TEXTURE_2D, idTexturaAtirador);
     desenhaBloco(atirador);
-
     glDisable(GL_TEXTURE_2D);
 
+    //Mostra texto ao pausar a fase atual
     textoTelaPause();
-    //Mostra a fase atual
     sprintf(textoFase, "Fase: %d", fase);
     escreveTexto(GLUT_BITMAP_HELVETICA_18, textoFase, 5, 5, 0);
+
+    verificaFimJogo();
 
     glutSwapBuffers();
 }
@@ -247,15 +259,14 @@ void atualizaCena(int periodo){
     if(!pausado && !reiniciar){
         movimentoInimigo();
         desenhaDisparo();
-        for(int i = 0; i < qtdzumbis; i++){
+        /*for(int i = 0; i < qtdzumbis; i++){
                 if(zumbis[i].visivel)
                     if(colisao(atirador.x, atirador.y, atirador.largura, atirador.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
                         // perdeu
-                        exit(0);
-                    }
-            }
-    }
 
+                    }
+            }*/
+    }
     glutPostRedisplay();
     glutTimerFunc(periodo, atualizaCena, periodo);
 }
@@ -275,6 +286,15 @@ void teclas_de_seta (int tecla, int x, int y ){
     }
 }
 
+void reiniciaGame(){
+    reiniciar = true;
+    pontuacao = 0;
+    fase = 0;
+    inicializa();
+    desenha();
+    reiniciar = false;
+}
+
 void teclado(unsigned char key, int x, int y) {
     if(key == 27)
         exit(0);
@@ -289,7 +309,7 @@ void teclado(unsigned char key, int x, int y) {
             return;
     }
 
-    if(key == 112 || key == 80){
+    if(key == 112){
         if(!pausado){
             pausado = true;
             return;
@@ -300,13 +320,9 @@ void teclado(unsigned char key, int x, int y) {
         }
     }
 
-     if(key == 114 || key == 82){
+     if(key == 114){
         if(reiniciar == false){
-            reiniciar = true;
-            pontuacao = 0;
-            inicializa();
-            desenha();
-            reiniciar = false;
+            reiniciaGame();
             return;
         }
      }
@@ -330,7 +346,7 @@ int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(600, 600);
-    glutInitWindowPosition(50, 50);
+    glutInitWindowPosition((1920/2)-300, (1080/2)-300);
 
     glutCreateWindow("Zombie Kill!");
 

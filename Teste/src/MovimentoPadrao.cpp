@@ -1,10 +1,10 @@
 #include "MovimentoPadrao.h"
 
 void inicializaMovimentoPadrao(MovimentoPadrao &movimentoPadrao){
-    movimentoPadrao.x = 10;
+    movimentoPadrao.x = 0;
     movimentoPadrao.y = 0;
     movimentoPadrao.qtdDescida = 0;
-    movimentoPadrao.velocidade = 1;
+    movimentoPadrao.velocidade = 2;
     movimentoPadrao.tipoMovimento = 0;
 }
 

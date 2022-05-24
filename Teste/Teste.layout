@@ -2,24 +2,14 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="src\MovimentoPadrao.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\MovimentoPadrao.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="226" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\Bloco.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="93" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\Bloco.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="148" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5834" topLine="0" />
+			<Cursor1 position="4357" topLine="0" />
 		</Cursor>
 		<Folding>
 			<Collapse line="32" />
@@ -32,17 +22,31 @@
 			<Collapse line="84" />
 			<Collapse line="88" />
 			<Collapse line="104" />
-			<Collapse line="111" />
 			<Collapse line="131" />
 			<Collapse line="147" />
 			<Collapse line="155" />
-			<Collapse line="163" />
 			<Collapse line="170" />
-			<Collapse line="176" />
 			<Collapse line="198" />
 			<Collapse line="208" />
 			<Collapse line="216" />
-			<Collapse line="328" />
+			<Collapse line="227" />
+			<Collapse line="256" />
+			<Collapse line="273" />
+			<Collapse line="288" />
+			<Collapse line="297" />
+			<Collapse line="330" />
+			<Collapse line="340" />
+			<Collapse line="344" />
 		</Folding>
+	</File>
+	<File name="src\Bloco.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="93" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\Bloco.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="148" topLine="0" />
+		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
