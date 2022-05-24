@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <irrKlang.h>
+#include <string.h>
 
 #include "Bloco.h"
 #include "MovimentoPadrao.h"
@@ -14,18 +15,19 @@ using namespace irrklang;
 
 ISoundEngine *SoundEngine = createIrrKlangDevice();
 
-GLuint idTexturaZumbi,idTexturaAtirador, idTexturaDisparo,idTexturaFundo;
+GLuint idTexturaZumbi, idTexturaAtirador, idTexturaDisparo, idTexturaFundo;
 
 AreaMovimento areaMovimento = {5,215,15};
 MovimentoPadrao movimentoPadrao;
 
-int qtdzumbis = 35, fase=1;
+int qtdzumbis = 35, fase = 1;
 
-Bloco atirador,municao,posicaoInicialZumbis[35],zumbis[35];
+Bloco atirador, municao, posicaoInicialZumbis[35], zumbis[35];
 Bloco fundo = {0,0,600,600,0,true};
 
 
-bool pausado = false, disparou = false;
+bool pausado = false, disparou = false, reiniciar = false;
+int pontuacao = 0;
 
 
 GLuint carregaTextura(const char* arquivo) {
@@ -43,11 +45,20 @@ GLuint carregaTextura(const char* arquivo) {
     return idTextura;
 }
 
+/*void escreveTexto(void *font, char *s, float x, float y, float z){
+    int i;
+    glRasterPos3f(x, y, z);
+
+    for (i = 0; i < strlen(s); i++) {
+        glutBitmapCharacter(font, s[i]);
+    }
+}*/
 
 //Texturas de movimento do atirador
 void movimentoEsquerdoAtirador(){
     idTexturaAtirador = carregaTextura("atirador_movendo.png");
 }
+
 void movimentoDireitoAtirador(){
     idTexturaAtirador = carregaTextura("atirador_movendo_direita.png");
 }
@@ -165,6 +176,7 @@ void desenhaDisparo(){
                 if(zumbis[i].visivel)
                     if(colisao(municao.x, municao.y, municao.largura, municao.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
                         disparou = false;
+                        pontuacao++;
                         zumbis[i].visivel = false;
                         gunHitSound();
 
@@ -180,7 +192,6 @@ void desenhaDisparo(){
             return ;
         }
 
-
         desenhaBloco(municao);
     }
 }
@@ -194,11 +205,49 @@ void atirar(){
     }
 }
 
+void desenha() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f (1, 1, 1);
+    // Habilita o uso de texturas
+    glEnable(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, idTexturaFundo);
+    desenhaBloco(fundo);
+
+    glBindTexture(GL_TEXTURE_2D, idTexturaZumbi);
+    desenhaInimigos();
+
+    glBindTexture(GL_TEXTURE_2D, idTexturaDisparo);
+    desenhaDisparo();
+
+    glBindTexture(GL_TEXTURE_2D, idTexturaAtirador);
+    desenhaBloco(atirador);
+
+    glDisable(GL_TEXTURE_2D);
+
+    glutSwapBuffers();
+}
+
 void atualizaCena(int periodo){
     //Atualizar a tela
-    if(!pausado){
+    if(!pausado && !reiniciar){
         movimentoInimigo();
         desenhaDisparo();
+        for(int i = 0; i < qtdzumbis; i++){
+                if(zumbis[i].visivel)
+                    if(colisao(atirador.x, atirador.y, atirador.largura, atirador.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
+                        // perdeu
+                        exit(0);
+                    }
+            }
+    }
+
+    if(reiniciar) {
+        pontuacao = 0;
+        desenha();
+        pausado = true;
+        pausado = false;
+        reiniciar = false;
     }
 
     glutPostRedisplay();
@@ -221,52 +270,39 @@ void teclas_de_seta (int tecla, int x, int y ){
 }
 
 void teclado(unsigned char key, int x, int y) {
-    switch (key) {
-        case 27:
-            exit(0);
-        case 32:
-            //Espaco atira
-            if(!pausado){
-                movimentoAtirar();
-                atirar();
-                break;
-            }
-            else
-                break;
-        case 112:
-            if(!pausado){
-                pausado = true;
-                break;
-            }
-            if(pausado){
-                pausado = false;
-                break;
-            }
+    if(key == 27)
+        exit(0);
+    if(key == 32) {
+        //Espaco atira
+        if(!pausado){
+            movimentoAtirar();
+            atirar();
+            return;
+        }
+        else
+            return;
     }
-}
 
-void desenha() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f (1, 1, 1);
+    if(key == 112 || key == 80){
+        if(!pausado){
+            pausado = true;
+            return;
+        }
+        if(pausado){
+            pausado = false;
+            return;
+        }
+    }
 
-    // Habilita o uso de texturas
-    glEnable(GL_TEXTURE_2D);
-
-    glBindTexture(GL_TEXTURE_2D, idTexturaFundo);
-    desenhaBloco(fundo);
-
-    glBindTexture(GL_TEXTURE_2D, idTexturaZumbi);
-    desenhaInimigos();
-
-    glBindTexture(GL_TEXTURE_2D, idTexturaDisparo);
-    desenhaDisparo();
-
-    glBindTexture(GL_TEXTURE_2D, idTexturaAtirador);
-    desenhaBloco(atirador);
-
-    glDisable(GL_TEXTURE_2D);
-
-    glutSwapBuffers();
+     if(key == 114 || key == 82){
+        if(reiniciar == false){
+            reiniciar = true;
+            pontuacao = 0;
+            inicializa();
+            desenha();
+            return;
+        }
+     }
 }
 
 void redimensiona(int w, int h) {
