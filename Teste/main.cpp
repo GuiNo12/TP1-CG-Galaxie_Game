@@ -26,7 +26,7 @@ Bloco fundo = {0,0,600,600,0,true};
 
 char textoFase[8];
 
-bool pausado = false, disparou = false, disparouZumbi = false, reiniciar = false;
+bool pausado = true, terminou = false, disparou = false, disparouZumbi = false, reiniciar = false;
 int pontuacao = 1;
 
 
@@ -165,12 +165,12 @@ void desenhaInimigos(){
 void novaFase(){
     fase += 1;
     inicializaInimigos();
-    movimentoPadrao.velocidade += fase*0.1;
+    movimentoPadrao.velocidade += fase*0.2;
     //printf("Fase: %d, velocidade: %f\n",fase,movimentoPadrao.velocidade);
 }
 
 void desenhaDisparoJogador(){
-    if(disparou){
+    if(disparou && !pausado){
         if(municaoJogador.y <= (600 - municaoJogador.altura - municaoJogador.velocidade)){
             municaoJogador.y += municaoJogador.velocidade;
             for(int i = 0; i < qtdzumbis; i++){
@@ -208,13 +208,13 @@ void atirar(){
 
 void desenhaDisparoZumbi(){
     if(disparouZumbi){
-        printf("Zumbi %lf, %lf, %lf, %lf\n", municaoZumbi.x, municaoZumbi.y, municaoZumbi.velocidade, municaoZumbi.altura);
+        //printf("Zumbi %lf, %lf, %lf, %lf\n", municaoZumbi.x, municaoZumbi.y, municaoZumbi.velocidade, municaoZumbi.altura);
         if(municaoZumbi.y >= 0){
             municaoZumbi.y -= municaoZumbi.velocidade;
             if(colisao(municaoZumbi.x, municaoZumbi.y, municaoZumbi.largura, municaoZumbi.altura, atirador.x, atirador.y, atirador.largura, atirador.altura) == true) {
                 disparouZumbi = false;
-                pontuacao--;
                 gunHitSound();
+                //fimDeJogo();
 
             }
         }else {
@@ -227,8 +227,13 @@ void desenhaDisparoZumbi(){
 }
 
 void atirarZumbi(int periodo){
-    int zumbiAtirador = rand() % 34;
-    if(!disparouZumbi){
+    int zumbiAtirador;
+
+    if(!disparouZumbi && !pausado && !terminou){
+        do {
+            zumbiAtirador = rand() % 34;
+        } while(!zumbis[zumbiAtirador].visivel);
+
         disparouZumbi = true;
         municaoZumbi.x = zumbis[zumbiAtirador].x + 25;
         municaoZumbi.y = zumbis[zumbiAtirador].y - 10;
@@ -246,17 +251,25 @@ void textoTelaPause(){
         escreveTexto(GLUT_BITMAP_HELVETICA_18,   "Use <-, -> para controle", 200, 280, 0);
         escreveTexto(GLUT_BITMAP_HELVETICA_18,   "    (P) para play/pause", 200, 260, 0);
     }
+    if(terminou){
+        escreveTexto(GLUT_BITMAP_TIMES_ROMAN_24,   "Game Over", 250, 330, 0);
+    }
+}
+
+void fimDeJogo(){
+    terminou = true;
+    pausado = true;
 }
 
 void verificaFimJogo(){
-    for(int i = 0; i < qtdzumbis; i++){
-        if( zumbis[i].visivel ){
-            if(((zumbis[i].y - zumbis[i].altura) == 0)){
-                pausado = true;
-                escreveTexto(GLUT_BITMAP_TIMES_ROMAN_24,   "Game Over", 250, 330, 0);
+    if(!pausado)
+        for(int i = 0; i < qtdzumbis; i++){
+            if( zumbis[i].visivel ){
+                if(((zumbis[i].y - zumbis[i].altura) == 0)){
+                    fimDeJogo();
+                }
             }
         }
-    }
 }
 
 void desenha() {
@@ -282,9 +295,9 @@ void desenha() {
     glDisable(GL_TEXTURE_2D);
 
     //Mostra texto ao pausar a fase atual
-    textoTelaPause();
     sprintf(textoFase, "Fase: %d", fase);
     escreveTexto(GLUT_BITMAP_HELVETICA_18, textoFase, 5, 5, 0);
+    textoTelaPause();
 
     verificaFimJogo();
 
@@ -293,29 +306,29 @@ void desenha() {
 
 void atualizaCena(int periodo){
     //Atualizar a tela
-    if(!pausado && !reiniciar){
+    if(!pausado){
         movimentoInimigo();
         desenhaDisparoJogador();
         desenhaDisparoZumbi();
         for(int i = 0; i < qtdzumbis; i++){
             if(zumbis[i].visivel){
                 if(colisao(atirador.x, atirador.y, atirador.largura, atirador.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
-                    exit(0);
+                    //exit(0);
+                    fimDeJogo();
                 }
             }
         }
 
-        if (pontuacao == 0) {
-            exit(0);
-        }
+        /*if (pontuacao == 0) {
+            //exit(0);
+            fimDeJogo();
+        }*/
     }
 
-                    }
-            }*/
-    }
     glutPostRedisplay();
     glutTimerFunc(periodo, atualizaCena, periodo);
-}
+    }
+
 
 void teclas_de_seta (int tecla, int x, int y ){
     if(!pausado){
@@ -333,12 +346,13 @@ void teclas_de_seta (int tecla, int x, int y ){
 }
 
 void reiniciaGame(){
-    reiniciar = true;
+    //reiniciar = true;
+    terminou = false;
     pontuacao = 0;
     fase = 0;
     inicializa();
     desenha();
-    reiniciar = false;
+    //reiniciar = false;
 }
 
 void teclado(unsigned char key, int x, int y) {
@@ -355,7 +369,7 @@ void teclado(unsigned char key, int x, int y) {
             return;
     }
 
-    if(key == 112){
+    if(key == 112 && !terminou){
         if(!pausado){
             pausado = true;
             return;
@@ -367,10 +381,10 @@ void teclado(unsigned char key, int x, int y) {
     }
 
      if(key == 114){
-        if(reiniciar == false){
+        //if(reiniciar == false){
             reiniciaGame();
-            return;
-        }
+          //  return;
+        //}
      }
 }
 
