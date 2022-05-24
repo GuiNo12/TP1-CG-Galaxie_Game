@@ -6,7 +6,7 @@
 	<stdlib.h>
 	<stdio.h>
 
-1649333886 c:\program files (x86)\codeblocks\mingw\include\gl\glew.h
+1652749389 c:\program files (x86)\codeblocks\mingw\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -15,11 +15,11 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1649333872 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut.h
+1652749397 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut.h
 	"freeglut_std.h"
 	"freeglut_ext.h"
 
-1649333872 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
+1652749397 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
 	<windows.h>
 	<EGL/egl.h>
 	<GLES/gl.h>
@@ -30,10 +30,10 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1649333872 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_ext.h
+1652749397 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_ext.h
 	<stdarg.h>
 
-1649333894 c:\program files (x86)\codeblocks\mingw\include\soil\soil.h
+1652749377 c:\program files (x86)\codeblocks\mingw\include\soil\soil.h
 
 1652302663 source:c:\users\pablo\desktop\faculdade\computacao grafica\teste\src\bloco.cpp
 	"Bloco.h"
@@ -438,5 +438,140 @@
 1653409027 c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\include\movimentopadrao.h
 
 1653416380 source:c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\src\movimentopadrao.cpp
+	"MovimentoPadrao.h"
+
+1653416688 source:c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\main.cpp
+	<SOIL/SOIL.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<stdlib.h>
+	<stdio.h>
+	<irrKlang.h>
+	<string.h>
+	"Bloco.h"
+	"MovimentoPadrao.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\irrklang.h
+	"ik_irrKlangTypes.h"
+	"ik_vec3d.h"
+	"ik_IRefCounted.h"
+	"ik_IVirtualRefCounted.h"
+	"ik_ESoundOutputDrivers.h"
+	"ik_ESoundEngineOptions.h"
+	"ik_EStreamModes.h"
+	"ik_SAudioStreamFormat.h"
+	"ik_ISoundEngine.h"
+	"ik_ISoundSource.h"
+	"ik_ISound.h"
+	"ik_IAudioStream.h"
+	"ik_IAudioStreamLoader.h"
+	"ik_ISoundEffectControl.h"
+	"ik_ISoundStopEventReceiver.h"
+	"ik_IFileFactory.h"
+	"ik_IFileReader.h"
+	"ik_ISoundDeviceList.h"
+	"ik_IAudioRecorder.h"
+	"ik_ISoundMixedOutputReceiver.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_irrklangtypes.h
+	<wchar.h>
+
+1341010378 c:\program files (x86)\codeblocks\mingw\include\wchar.h
+	<_mingw.h>
+	<stddef.h>
+	<stdarg.h>
+	<wctype.h>
+	<sys/types.h>
+	<stdio.h>
+	<stdint.h>
+	<stdint.h>
+
+1341010378 c:\program files (x86)\codeblocks\mingw\include\wctype.h
+	<_mingw.h>
+	<stddef.h>
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_vec3d.h
+	<math.h>
+	"ik_irrKlangTypes.h"
+
+1341010374 c:\program files (x86)\codeblocks\mingw\include\math.h
+	<_mingw.h>
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_irefcounted.h
+	"ik_irrKlangTypes.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_ivirtualrefcounted.h
+	"ik_irrKlangTypes.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_esoundoutputdrivers.h
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_esoundengineoptions.h
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_estreammodes.h
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_saudiostreamformat.h
+	"ik_IRefCounted.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_isoundengine.h
+	"ik_IRefCounted.h"
+	"ik_vec3d.h"
+	"ik_ISoundSource.h"
+	"ik_ISound.h"
+	"ik_EStreamModes.h"
+	"ik_IFileFactory.h"
+	"ik_ISoundMixedOutputReceiver.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_isoundsource.h
+	"ik_IVirtualRefCounted.h"
+	"ik_vec3d.h"
+	"ik_EStreamModes.h"
+	"ik_SAudioStreamFormat.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_isound.h
+	"ik_IVirtualRefCounted.h"
+	"ik_ISoundEffectControl.h"
+	"ik_vec3d.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_isoundeffectcontrol.h
+	"ik_IVirtualRefCounted.h"
+	"ik_vec3d.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_ifilefactory.h
+	"ik_IRefCounted.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_isoundmixedoutputreceiver.h
+	"ik_IRefCounted.h"
+	"ik_SAudioStreamFormat.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_iaudiostream.h
+	"ik_IRefCounted.h"
+	"ik_SAudioStreamFormat.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_iaudiostreamloader.h
+	"ik_IRefCounted.h"
+	"ik_IFileReader.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_ifilereader.h
+	"ik_IRefCounted.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_isoundstopeventreceiver.h
+	"ik_IRefCounted.h"
+	"ik_SAudioStreamFormat.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_isounddevicelist.h
+	"ik_IRefCounted.h"
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\ik_iaudiorecorder.h
+	"ik_IRefCounted.h"
+	"ik_ISoundSource.h"
+
+1653416325 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\bloco.h
+
+1653416121 c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\include\movimentopadrao.h
+
+1653416307 source:c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\src\bloco.cpp
+	"Bloco.h"
+
+1653416121 source:c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\src\movimentopadrao.cpp
 	"MovimentoPadrao.h"
 

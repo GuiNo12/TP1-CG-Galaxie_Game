@@ -21,13 +21,13 @@ MovimentoPadrao movimentoPadrao;
 
 int qtdzumbis = 35, fase = 1;
 
-Bloco atirador, municao, posicaoInicialZumbis[35], zumbis[35];
+Bloco atirador, municaoJogador, municaoZumbi, posicaoInicialZumbis[35], zumbis[35];
 Bloco fundo = {0,0,600,600,0,true};
 
 char textoFase[8];
 
-bool pausado = true, disparou = false, reiniciar = false;
-int pontuacao = 0;
+bool pausado = false, disparou = false, disparouZumbi = false, reiniciar = false;
+int pontuacao = 1;
 
 
 GLuint carregaTextura(const char* arquivo) {
@@ -106,7 +106,7 @@ void inicializaInimigos(){
     inicializaMovimentoPadrao(movimentoPadrao);
 
     float xInicial = 5, yInicial = 600;
-    float espacamento=15,largura=40,altura=40,x=xInicial,y=yInicial,velocidade=0.2;
+    float espacamento=15,largura=40,altura=40,x=xInicial,y=yInicial,velocidade=10;
     int qtdColunas = 7;
 
     for(int i = 0; i < qtdzumbis; i++){
@@ -131,7 +131,8 @@ void inicializaInimigos(){
 
 void inicializa() {
     inicializaAtirador(atirador);
-    inicializaMunicao(municao);
+    inicializaMunicaoJogador(municaoJogador);
+    inicializaMunicaoZumbi(municaoZumbi);
     inicializaInimigos();
 
     glClearColor(1, 1, 1, 1);
@@ -168,13 +169,13 @@ void novaFase(){
     //printf("Fase: %d, velocidade: %f\n",fase,movimentoPadrao.velocidade);
 }
 
-void desenhaDisparo(){
+void desenhaDisparoJogador(){
     if(disparou){
-        if(municao.y <= (600 - municao.altura - municao.velocidade)){
-            municao.y += municao.velocidade;
+        if(municaoJogador.y <= (600 - municaoJogador.altura - municaoJogador.velocidade)){
+            municaoJogador.y += municaoJogador.velocidade;
             for(int i = 0; i < qtdzumbis; i++){
                 if(zumbis[i].visivel)
-                    if(colisao(municao.x, municao.y, municao.largura, municao.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
+                    if(colisao(municaoJogador.x, municaoJogador.y, municaoJogador.largura, municaoJogador.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
                         disparou = false;
                         pontuacao++;
                         zumbis[i].visivel = false;
@@ -192,17 +193,50 @@ void desenhaDisparo(){
             return ;
         }
 
-        desenhaBloco(municao);
+        desenhaBloco(municaoJogador);
     }
 }
 
 void atirar(){
     if(!disparou){
         disparou = true;
-        municao.x = atirador.x + 25;
-        municao.y = atirador.y + atirador.altura +10;
+        municaoJogador.x = atirador.x + 25;
+        municaoJogador.y = atirador.y + atirador.altura + 10;
         SoundEngine->play2D("gun-shot.mp3", false);
     }
+}
+
+void desenhaDisparoZumbi(){
+    if(disparouZumbi){
+        printf("Zumbi %lf, %lf, %lf, %lf\n", municaoZumbi.x, municaoZumbi.y, municaoZumbi.velocidade, municaoZumbi.altura);
+        if(municaoZumbi.y >= 0){
+            municaoZumbi.y -= municaoZumbi.velocidade;
+            if(colisao(municaoZumbi.x, municaoZumbi.y, municaoZumbi.largura, municaoZumbi.altura, atirador.x, atirador.y, atirador.largura, atirador.altura) == true) {
+                disparouZumbi = false;
+                pontuacao--;
+                gunHitSound();
+
+            }
+        }else {
+            disparouZumbi = false;
+            return ;
+        }
+
+        desenhaBloco(municaoZumbi);
+    }
+}
+
+void atirarZumbi(int periodo){
+    int zumbiAtirador = rand() % 34;
+    if(!disparouZumbi){
+        disparouZumbi = true;
+        municaoZumbi.x = zumbis[zumbiAtirador].x + 25;
+        municaoZumbi.y = zumbis[zumbiAtirador].y - 10;
+        SoundEngine->play2D("gun-shot.mp3", false);
+    }
+
+    glutPostRedisplay();
+    glutTimerFunc(periodo, atirarZumbi, periodo);
 }
 
 //Escreve texto na tela pausada
@@ -238,7 +272,10 @@ void desenha() {
     desenhaInimigos();
 
     glBindTexture(GL_TEXTURE_2D, idTexturaDisparo);
-    desenhaDisparo();
+    desenhaDisparoJogador();
+
+    glBindTexture(GL_TEXTURE_2D, idTexturaDisparo);
+    desenhaDisparoZumbi();
 
     glBindTexture(GL_TEXTURE_2D, idTexturaAtirador);
     desenhaBloco(atirador);
@@ -258,11 +295,20 @@ void atualizaCena(int periodo){
     //Atualizar a tela
     if(!pausado && !reiniciar){
         movimentoInimigo();
-        desenhaDisparo();
-        /*for(int i = 0; i < qtdzumbis; i++){
-                if(zumbis[i].visivel)
-                    if(colisao(atirador.x, atirador.y, atirador.largura, atirador.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
-                        // perdeu
+        desenhaDisparoJogador();
+        desenhaDisparoZumbi();
+        for(int i = 0; i < qtdzumbis; i++){
+            if(zumbis[i].visivel){
+                if(colisao(atirador.x, atirador.y, atirador.largura, atirador.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
+                    exit(0);
+                }
+            }
+        }
+
+        if (pontuacao == 0) {
+            exit(0);
+        }
+    }
 
                     }
             }*/
@@ -362,6 +408,7 @@ int main(int argc, char** argv) {
 
     //Atualiza a cena
     glutTimerFunc(0, atualizaCena, 30);
+    glutTimerFunc(0, atirarZumbi, 5000);
 
     glutMainLoop();
 
