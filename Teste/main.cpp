@@ -29,6 +29,10 @@ char textoFase[8];
 bool pausado = true, terminou = false, disparou = false, disparouZumbi = false, reiniciar = false;
 int pontuacao = 1;
 
+void fimDeJogo(){
+    terminou = true;
+    pausado = true;
+}
 
 GLuint carregaTextura(const char* arquivo) {
     GLuint idTextura = SOIL_load_OGL_texture(
@@ -165,7 +169,7 @@ void desenhaInimigos(){
 void novaFase(){
     fase += 1;
     inicializaInimigos();
-    movimentoPadrao.velocidade += fase*0.2;
+    movimentoPadrao.velocidade += fase*0.5;
     //printf("Fase: %d, velocidade: %f\n",fase,movimentoPadrao.velocidade);
 }
 
@@ -214,7 +218,7 @@ void desenhaDisparoZumbi(){
             if(colisao(municaoZumbi.x, municaoZumbi.y, municaoZumbi.largura, municaoZumbi.altura, atirador.x, atirador.y, atirador.largura, atirador.altura) == true) {
                 disparouZumbi = false;
                 gunHitSound();
-                //fimDeJogo();
+                fimDeJogo();
 
             }
         }else {
@@ -254,11 +258,6 @@ void textoTelaPause(){
     if(terminou){
         escreveTexto(GLUT_BITMAP_TIMES_ROMAN_24,   "Game Over", 250, 330, 0);
     }
-}
-
-void fimDeJogo(){
-    terminou = true;
-    pausado = true;
 }
 
 void verificaFimJogo(){
