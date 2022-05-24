@@ -242,14 +242,6 @@ void atualizaCena(int periodo){
             }
     }
 
-    if(reiniciar) {
-        pontuacao = 0;
-        desenha();
-        pausado = true;
-        pausado = false;
-        reiniciar = false;
-    }
-
     glutPostRedisplay();
     glutTimerFunc(periodo, atualizaCena, periodo);
 }
@@ -300,6 +292,7 @@ void teclado(unsigned char key, int x, int y) {
             pontuacao = 0;
             inicializa();
             desenha();
+            reiniciar = false;
             return;
         }
      }
