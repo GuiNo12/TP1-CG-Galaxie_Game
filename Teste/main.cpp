@@ -19,12 +19,12 @@ GLuint idTexturaZumbi, idTexturaAtirador, idTexturaDisparo, idTexturaFundo;
 AreaMovimento areaMovimento = {5,215,15};
 MovimentoPadrao movimentoPadrao;
 
-int qtdzumbis = 35, fase = 1;
+int qtdzumbis = 35, fase = 1, vida = 1;
 
 Bloco atirador, municaoJogador, municaoZumbi, posicaoInicialZumbis[35], zumbis[35];
 Bloco fundo = {0,0,600,600,0,true};
 
-char textoFase[8];
+char textoFase[8], textoVida[8];
 
 bool pausado = true, terminou = false, disparou = false, disparouZumbi = false, reiniciar = false;
 int pontuacao = 1;
@@ -168,6 +168,8 @@ void desenhaInimigos(){
 
 void novaFase(){
     fase += 1;
+    vida += 1 ;
+    printf("Vida: %d\n", vida);
     inicializaInimigos();
     movimentoPadrao.velocidade += fase*0.5;
 }
@@ -216,7 +218,10 @@ void desenhaDisparoZumbi(){
             if(colisao(municaoZumbi.x, municaoZumbi.y, municaoZumbi.largura, municaoZumbi.altura, atirador.x, atirador.y, atirador.largura, atirador.altura) == true) {
                 disparouZumbi = false;
                 gunHitSound();
-                fimDeJogo();
+                vida--;
+                printf("Vida: %d\n", vida);
+                if(vida == 0)
+                    fimDeJogo();
 
             }
         }else {
@@ -291,9 +296,13 @@ void desenha() {
     desenhaBloco(atirador);
     glDisable(GL_TEXTURE_2D);
 
-    //Mostra texto ao pausar a fase atual
+    //Mostra textos na tela
     sprintf(textoFase, "Fase: %d", fase);
     escreveTexto(GLUT_BITMAP_HELVETICA_18, textoFase, 5, 5, 0);
+
+    sprintf(textoVida, "Vidas: %d", vida);
+    escreveTexto(GLUT_BITMAP_HELVETICA_18, textoVida, 75, 5, 0);
+
     textoTelaPause();
 
     verificaFimJogo();
@@ -345,6 +354,7 @@ void reiniciaGame(){
     terminou = false;
     pontuacao = 0;
     fase = 0;
+    vida = 1;
     inicializa();
     desenha();
 }
