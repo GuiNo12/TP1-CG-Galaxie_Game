@@ -6,7 +6,7 @@
 	<stdlib.h>
 	<stdio.h>
 
-1649333886 c:\program files (x86)\codeblocks\mingw\include\gl\glew.h
+1652749389 c:\program files (x86)\codeblocks\mingw\include\gl\glew.h
 	<stddef.h>
 	<inttypes.h>
 	<stdint.h>
@@ -15,11 +15,11 @@
 	<OpenGL/glu.h>
 	<GL/glu.h>
 
-1649333872 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut.h
+1652749397 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut.h
 	"freeglut_std.h"
 	"freeglut_ext.h"
 
-1649333872 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
+1652749397 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_std.h
 	<windows.h>
 	<EGL/egl.h>
 	<GLES/gl.h>
@@ -30,10 +30,10 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1649333872 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_ext.h
+1652749397 c:\program files (x86)\codeblocks\mingw\include\gl\freeglut_ext.h
 	<stdarg.h>
 
-1649333894 c:\program files (x86)\codeblocks\mingw\include\soil\soil.h
+1652749377 c:\program files (x86)\codeblocks\mingw\include\soil\soil.h
 
 1652302663 source:c:\users\pablo\desktop\faculdade\computacao grafica\teste\src\bloco.cpp
 	"Bloco.h"
@@ -440,7 +440,7 @@
 1653426264 source:c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\src\movimentopadrao.cpp
 	"MovimentoPadrao.h"
 
-1653416688 source:c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\main.cpp
+1653488568 source:c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\main.cpp
 	<SOIL/SOIL.h>
 	<GL/glew.h>
 	<GL/freeglut.h>
@@ -572,6 +572,6 @@
 1653416307 source:c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\src\bloco.cpp
 	"Bloco.h"
 
-1653416121 source:c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\src\movimentopadrao.cpp
+1653487795 source:c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\src\movimentopadrao.cpp
 	"MovimentoPadrao.h"
 

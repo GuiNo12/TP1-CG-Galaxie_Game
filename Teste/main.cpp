@@ -60,11 +60,11 @@ void escreveTexto(void * font, char *s, float x, float y, float z) {
 
 //Texturas de movimento do atirador
 void movimentoEsquerdoAtirador(){
-    idTexturaAtirador = carregaTextura("atirador_movendo.png");
+    idTexturaAtirador = carregaTextura("pictures/atirador_movendo.png");
 }
 
 void movimentoDireitoAtirador(){
-    idTexturaAtirador = carregaTextura("atirador_movendo_direita.png");
+    idTexturaAtirador = carregaTextura("pictures/atirador_movendo_direita.png");
 }
 
 void movimentoInimigo(){
@@ -79,15 +79,15 @@ void movimentoInimigo(){
 
 //Efeitos Sonoros
 void gunHitSound(){
-    SoundEngine->play2D("gun-hit.mp3", false);
+    SoundEngine->play2D("sounds/gun-hit.mp3", false);
 }
 
 void soundTrack(){
-    SoundEngine->play2D("soundtrack.mp3", true);
+    SoundEngine->play2D("sounds/soundtrack.mp3", true);
 }
 
 void movimentoAtirar(){
-    idTexturaAtirador = carregaTextura("atirando.png");
+    idTexturaAtirador = carregaTextura("pictures/atirando.png");
 }
 
 void desenhaBloco(Bloco bloco){
@@ -144,9 +144,9 @@ void inicializa() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    idTexturaZumbi = carregaTextura("zumbi.png");
-    idTexturaDisparo = carregaTextura("municao.png");
-    idTexturaFundo = carregaTextura("fundo.png");
+    idTexturaZumbi = carregaTextura("pictures/zumbi.png");
+    idTexturaDisparo = carregaTextura("pictures/municao.png");
+    idTexturaFundo = carregaTextura("pictures/fundo.png");
     movimentoAtirar();
 }
 
@@ -170,7 +170,6 @@ void novaFase(){
     fase += 1;
     inicializaInimigos();
     movimentoPadrao.velocidade += fase*0.5;
-    //printf("Fase: %d, velocidade: %f\n",fase,movimentoPadrao.velocidade);
 }
 
 void desenhaDisparoJogador(){
@@ -206,13 +205,12 @@ void atirar(){
         disparou = true;
         municaoJogador.x = atirador.x + 25;
         municaoJogador.y = atirador.y + atirador.altura + 10;
-        SoundEngine->play2D("gun-shot.mp3", false);
+        SoundEngine->play2D("sounds/gun-shot.mp3", false);
     }
 }
 
 void desenhaDisparoZumbi(){
     if(disparouZumbi){
-        //printf("Zumbi %lf, %lf, %lf, %lf\n", municaoZumbi.x, municaoZumbi.y, municaoZumbi.velocidade, municaoZumbi.altura);
         if(municaoZumbi.y >= 0){
             municaoZumbi.y -= municaoZumbi.velocidade;
             if(colisao(municaoZumbi.x, municaoZumbi.y, municaoZumbi.largura, municaoZumbi.altura, atirador.x, atirador.y, atirador.largura, atirador.altura) == true) {
@@ -241,7 +239,7 @@ void atirarZumbi(int periodo){
         disparouZumbi = true;
         municaoZumbi.x = zumbis[zumbiAtirador].x + 25;
         municaoZumbi.y = zumbis[zumbiAtirador].y - 10;
-        SoundEngine->play2D("gun-shot.mp3", false);
+        SoundEngine->play2D("sounds/gun-shot.mp3", false);
     }
 
     glutPostRedisplay();
@@ -312,7 +310,6 @@ void atualizaCena(int periodo){
         for(int i = 0; i < qtdzumbis; i++){
             if(zumbis[i].visivel){
                 if(colisao(atirador.x, atirador.y, atirador.largura, atirador.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
-                    //exit(0);
                     fimDeJogo();
                 }
             }
@@ -345,13 +342,11 @@ void teclas_de_seta (int tecla, int x, int y ){
 }
 
 void reiniciaGame(){
-    //reiniciar = true;
     terminou = false;
     pontuacao = 0;
     fase = 0;
     inicializa();
     desenha();
-    //reiniciar = false;
 }
 
 void teclado(unsigned char key, int x, int y) {
@@ -380,10 +375,7 @@ void teclado(unsigned char key, int x, int y) {
     }
 
      if(key == 114){
-        //if(reiniciar == false){
-            reiniciaGame();
-          //  return;
-        //}
+        reiniciaGame();
      }
 }
 
