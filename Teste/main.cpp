@@ -14,7 +14,7 @@ using namespace irrklang;
 //VARIAVEIS GLOBAIS--------------
 ISoundEngine *SoundEngine = createIrrKlangDevice();
 
-GLuint idTexturaZumbi, idTexturaAtirador, idTexturaDisparo, idTexturaFundo;
+GLuint idTexturaZumbi, idTexturaAtirador, idTexturaDisparo, idTexturaDisparoZumbi, idTexturaFundo;
 
 AreaMovimento areaMovimento = {5,215,15};
 MovimentoPadrao movimentoPadrao;
@@ -29,7 +29,34 @@ char textoFase[8], textoVida[8];
 bool pausado = true, terminou = false, disparou = false, disparouZumbi = false, reiniciar = false;
 int pontuacao = 1;
 
+//Efeitos Sonoros
+void gunHitSound(){
+    SoundEngine->play2D("sounds/zumbi_morte.mp3", false);
+}
+
+void atiradorHitSound(){
+    SoundEngine->play2D("sounds/atirador_morte.mp3", false);
+}
+
+void soundTrack(){
+    SoundEngine->play2D("sounds/soundtrack.mp3", true);
+}
+
+void gameoverSound(){
+    SoundEngine->play2D("sounds/gameover.mp3", false);
+}
+
+void gamestartSound(){
+    SoundEngine->play2D("sounds/gamestart.mp3", false);
+}
+
+void levelUpSound(){
+    SoundEngine->play2D("sounds/levelup.mp3", false);
+}
+
+
 void fimDeJogo(){
+    gameoverSound();
     terminou = true;
     pausado = true;
 }
@@ -77,14 +104,6 @@ void movimentoInimigo(){
         }
 }
 
-//Efeitos Sonoros
-void gunHitSound(){
-    SoundEngine->play2D("sounds/gun-hit.mp3", false);
-}
-
-void soundTrack(){
-    SoundEngine->play2D("sounds/soundtrack.mp3", true);
-}
 
 void movimentoAtirar(){
     idTexturaAtirador = carregaTextura("pictures/atirando.png");
@@ -146,6 +165,7 @@ void inicializa() {
 
     idTexturaZumbi = carregaTextura("pictures/zumbi.png");
     idTexturaDisparo = carregaTextura("pictures/municao.png");
+    idTexturaDisparoZumbi = carregaTextura("pictures/tiro_zumbi.png");
     idTexturaFundo = carregaTextura("pictures/fundo.png");
     movimentoAtirar();
 }
@@ -169,7 +189,7 @@ void desenhaInimigos(){
 void novaFase(){
     fase += 1;
     vida += 1 ;
-    printf("Vida: %d\n", vida);
+    levelUpSound();
     inicializaInimigos();
     movimentoPadrao.velocidade += fase*0.5;
 }
@@ -217,9 +237,8 @@ void desenhaDisparoZumbi(){
             municaoZumbi.y -= municaoZumbi.velocidade;
             if(colisao(municaoZumbi.x, municaoZumbi.y, municaoZumbi.largura, municaoZumbi.altura, atirador.x, atirador.y, atirador.largura, atirador.altura) == true) {
                 disparouZumbi = false;
-                gunHitSound();
+                atiradorHitSound();
                 vida--;
-                printf("Vida: %d\n", vida);
                 if(vida == 0)
                     fimDeJogo();
 
@@ -289,7 +308,7 @@ void desenha() {
     glBindTexture(GL_TEXTURE_2D, idTexturaDisparo);
     desenhaDisparoJogador();
 
-    glBindTexture(GL_TEXTURE_2D, idTexturaDisparo);
+    glBindTexture(GL_TEXTURE_2D, idTexturaDisparoZumbi);
     desenhaDisparoZumbi();
 
     glBindTexture(GL_TEXTURE_2D, idTexturaAtirador);
@@ -380,6 +399,8 @@ void teclado(unsigned char key, int x, int y) {
         }
         if(pausado){
             pausado = false;
+            gamestartSound();
+            escreveTexto(GLUT_BITMAP_HELVETICA_18, "PAUSADO", 100, 420, 1);
             return;
         }
     }
