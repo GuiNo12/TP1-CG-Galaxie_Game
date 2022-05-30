@@ -1,15 +1,6 @@
 # TP1-CG-Galaxian-Game 🛸🔫
 Trabalho 1 para Computação Gráfica utilizando OpenGL inspirado no Galaxian Game.
 
-## Sumário
-1. [Integrantes](##integrantes)
-2. [Instruções de Compilação e Execução](##Instruções-de-Compilação-e-Execução)
-3. [Três cenas do jogo](##Três-cenas-do-jogo)
-4. [Vídeo mostrando o jogo](##Vídeo-mostrando-o-jogo)
-5. [Lista de intens adicionais](##-Lista-de-intens-adicionais)
-6. [Bibliotecas utilizadas:](##Bibliotecas-utilizadas)
-7. [Como instalar a biblioteca irrKlang 1.5. (Som)](##Como-instalar-a-biblioteca-irrKlang-1.5.-(Som))
-
 ## Integrantes
 * [Guilherme Nogueira Coelho]
 * [Pablo Henrique Santos]
