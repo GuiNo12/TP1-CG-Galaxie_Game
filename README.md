@@ -3,13 +3,13 @@ Trabalho 1 para Computação Gráfica utilizando OpenGL inspirado no Galaxian Ga
 
 ## Sumário
 * [Integrantes](#integrantes)
-* [Instruções de Compilação e Execução](##Instruções-de-Compilação-e-Execução)
+* [Instruções de Compilação e Execução](##instruções-de-compilação-e-execução)
 * [Arquivo Executável](#arquivo-executável)
 * [Três Cenas do Jogo](#três-cenas-do-jogo)
-* [Vídeo de Demonstração](#Vídeo-mostrando-o-jogo)
-* [Lista de intens adicionais](#Lista-de-intens-adicionais)
-* [Bibliotecas utilizadas](#Bibliotecas-utilizadas)
-* [Como instalar a biblioteca irrKlang 1.5. (Som)](#Como-instalar-a-biblioteca-irrKlang-1.5.-Som)
+* [Vídeo de Demonstração](#vídeo-mostrando-o-jogo)
+* [Lista de intens adicionais](#lista-de-intens-adicionais)
+* [Bibliotecas utilizadas](#bibliotecas-utilizadas)
+* [Como instalar a biblioteca irrKlang 1.5. (Som)](#como-instalar-a-biblioteca-irrKlang-1.5.-som)
 
 ## Integrantes
 * [Guilherme Nogueira Coelho]
