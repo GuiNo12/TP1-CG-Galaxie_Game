@@ -1,7 +1,16 @@
 # TP1-CG-Galaxian-Game 🛸🔫
 Trabalho 1 para Computação Gráfica utilizando OpenGL inspirado no Galaxian Game.
 
-## Integrantes:
+## Sumário
+1. [Integrantes](## Integrantes)
+2. [Instruções de Compilação e Execução](## Instruções de Compilação e Execução)
+3. [Três cenas do jogo](## Três cenas do jogo)
+4. [Vídeo mostrando o jogo](## Vídeo mostrando o jogo)
+5. [Lista de intens adicionais](## Lista de intens adicionais)
+6. [Bibliotecas utilizadas:](## Bibliotecas utilizadas:)
+7. [Como instalar a biblioteca irrKlang 1.5. (Som)](## Como instalar a biblioteca irrKlang 1.5. (Som))
+
+## Integrantes
 * [Guilherme Nogueira Coelho]
 * [Pablo Henrique Santos]
 * [Rebeca Larissa Silva Gaia]
@@ -11,7 +20,7 @@ O jogo foi desenvolvido utilizando o CodeBlocks. Para compilar, basta clicar dua
 ## Arquivo Executável:
 O arquivo executável encontra-se na pasta /Teste/bin/Debug.
 
-## Três cenas do jogo:
+## Três cenas do jogo
 * ### Jogo Pausado:
   ![image](https://user-images.githubusercontent.com/93343614/171066449-50fd0d2f-77e9-41ea-9116-aab0cdf40449.png)
 * ### Jogador Atirando:
@@ -19,7 +28,7 @@ O arquivo executável encontra-se na pasta /Teste/bin/Debug.
 * ### Jogador na próxima fase (ganhou uma vida):
   ![image](https://user-images.githubusercontent.com/93343614/171066777-6d9a7d35-5bc3-4311-bd00-6729345f98c7.png)
 
-## Vídeo mostrando o jogo:
+## Vídeo mostrando o jogo
 Link: 
 
 ## Lista de intens adicionais:
@@ -30,6 +39,12 @@ Link:
 * Pontuação (jogador ganha vida ao passar de fase);
 * HUD mostrando vidas do jogador;
 * Sons (tiro, morte);
+
+## Bibliotecas utilizadas
+* FreeGLUT
+* Glew
+* SOIL
+* irrKlang
 
 ## Como instalar a biblioteca irrKlang 1.5. (Som)
 
