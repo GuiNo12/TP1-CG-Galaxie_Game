@@ -2,15 +2,16 @@
 Trabalho 1 para Computação Gráfica utilizando OpenGL.
 
 
-##Como instalar a biblioteca irrKlang 1.5
+## Como instalar a biblioteca irrKlang 1.5.
+
 Na pasta Teste/bin/Debug, selecione os arquivos:
 irrKlang.dll, ikpMP3.dll, ikpFlac.dll, libirrKlang.a e libirrKlang.def
 e copie-os para /Windows/System32 e para ArquivosdeProgramas/Codeblocks/MinGW/lib
 
-Depois copie a pasta include em irrKlang-1.5.0 que está no git e cole em Teste/include.
-Dentro desta pasta que você copiou existe o arquivo irrKlang.h, copie para Teste/include
+Depois copie o conteúdo de /include disponível em /irrKlang-1.5.0/include que está no git e cole em Teste/include.
+Copie os mesmos arquivos de /include e cole em ArquivosdeProgramas/Codeblocks/MinGW//include
 
-Dentro da pasta irrKlang-1.5.0 no git, copie o arquivo irrKlang.lib para ArquivosdeProgramas/Codeblocks/MinGW/lib
+Dentro da pasta /irrKlang-1.5.0 no git, copie o arquivo irrKlang.lib para ArquivosdeProgramas/Codeblocks/MinGW/lib
 
 No CodeBlocks, clique com o botão direito no nome do projeto e em Bild Options
 
