@@ -3,7 +3,7 @@ Trabalho 1 para Computação Gráfica utilizando OpenGL inspirado no Galaxian Ga
 
 ## Sumário
 * [Integrantes](#integrantes)
-* [Instruções de Compilação e Execução](##instruções-de-compilação-e-execução)
+* [Instruções de Compilação e Execução](#instruções-de-compilação-e-execução)
 * [Arquivo Executável](#arquivo-executável)
 * [Três Cenas do Jogo](#três-cenas-do-jogo)
 * [Vídeo de Demonstração](#vídeo-mostrando-o-jogo)
@@ -32,7 +32,7 @@ O arquivo executável encontra-se na pasta /Teste/bin/Debug.
 ## Vídeo mostrando o jogo
 Link: 
 
-## Lista de intens adicionais:
+## Lista de intens adicionais
 * Texturas animadas (jogador);
 * Imagem de fundo;
 * Fases infinitas;
