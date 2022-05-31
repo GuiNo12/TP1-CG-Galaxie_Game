@@ -9,7 +9,7 @@ Trabalho 1 para Computação Gráfica utilizando OpenGL inspirado no Galaxian Ga
 * [Vídeo de Demonstração](#vídeo-mostrando-o-jogo)
 * [Lista de intens adicionais](#lista-de-intens-adicionais)
 * [Bibliotecas utilizadas](#bibliotecas-utilizadas)
-* [Como instalar a biblioteca irrKlang 1.5. (Som)](#como-instalar-a-biblioteca-irrKlang-1.5.-som)
+* [Como instalar a biblioteca irrKlang 1.5. (Som)](#como-instalar-a-biblioteca-irrKlang-1.5.)
 
 ## Integrantes
 * [Guilherme Nogueira Coelho] - 20183011834
@@ -47,7 +47,7 @@ Link:
 * SOIL
 * irrKlang
 
-## Como instalar a biblioteca irrKlang 1.5. Som
+## Como instalar a biblioteca irrKlang 1.5.
 
 Na pasta Teste/bin/Debug, selecione os arquivos:
 irrKlang.dll, ikpMP3.dll, ikpFlac.dll, libirrKlang.a e libirrKlang.def
