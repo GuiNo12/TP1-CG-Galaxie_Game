@@ -12,9 +12,9 @@ Trabalho 1 para Computação Gráfica utilizando OpenGL inspirado no Galaxian Ga
 * [Como instalar a biblioteca irrKlang 1.5. (Som)](#como-instalar-a-biblioteca-irrKlang-1.5.-som)
 
 ## Integrantes
-* [Guilherme Nogueira Coelho - 20183011834]
-* [Pablo Henrique Santos - 20183012250]
-* [Rebeca Larissa Silva Gaia - 20183025508]
+* [Guilherme Nogueira Coelho] - 20183011834
+* [Pablo Henrique Santos] - 20183012250
+* [Rebeca Larissa Silva Gaia] - 20183025508
 
 ## Instruções de Compilação e Execução:
 O jogo foi desenvolvido utilizando o CodeBlocks. Para compilar, basta clicar duas vezes no arquivo Teste.cbp disponível em /Teste. O CodeBlocks será inicializado e basta usar as teclas Ctrl + F9.
