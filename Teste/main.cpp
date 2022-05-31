@@ -27,10 +27,19 @@ Bloco fundo = {0,0,600,600,0,true};
 char textoFase[8], textoVida[8];
 
 bool pausado = true, terminou = false, disparou = false, disparouZumbi = false, reiniciar = false;
-int pontuacao = 1;
 
+void escreveTexto(void * font, char *s, float x, float y, float z) {
+    int i;
+    glRasterPos3f(x, y, z);
+
+    for (i = 0; i < strlen(s); i++) {
+        glutBitmapCharacter(font, s[i]);
+    }
+}
+//Define estado de fim de jogo
 void fimDeJogo(){
     SoundEngine->play2D("sounds/gameover.mp3", false);
+    escreveTexto(GLUT_BITMAP_TIMES_ROMAN_24, "       GAME OVER!", 200, 350, 0);
     terminou = true;
     pausado = true;
 }
@@ -50,16 +59,7 @@ GLuint carregaTextura(const char* arquivo) {
     return idTextura;
 }
 
-void escreveTexto(void * font, char *s, float x, float y, float z) {
-    int i;
-    glRasterPos3f(x, y, z);
-
-    for (i = 0; i < strlen(s); i++) {
-        glutBitmapCharacter(font, s[i]);
-    }
-}
-
-//Texturas de movimento do atirador
+/*--Texturas de movimento do atirador---------------------------------------*/
 void movimentoEsquerdoAtirador(){
     idTexturaAtirador = carregaTextura("pictures/atirador_movendo.png");
 }
@@ -77,8 +77,9 @@ void movimentoInimigo(){
             zumbis[i].y = posicaoInicialZumbis[i].y + movimentoPadrao.y;
         }
 }
+/*--------------------------------------------------------------------------*/
 
-//Efeitos Sonoros
+//--Efeitos Sonoros----------------------------------------------------------
 void gunHitSound(){
     SoundEngine->play2D("sounds/gun-hit.mp3", false);
 }
@@ -90,11 +91,9 @@ void soundTrack(){
 void movimentoAtirar(){
     idTexturaAtirador = carregaTextura("pictures/atirando.png");
 }
+//---------------------------------------------------------------------------
 
-void morteZumbiSound(){
-
-}
-
+//Desenha bloco correspondente aos objetos do jogo
 void desenhaBloco(Bloco bloco){
     glBegin(GL_TRIANGLE_FAN);
         glTexCoord2f(0, 0);
@@ -110,7 +109,7 @@ void desenhaBloco(Bloco bloco){
         glVertex3f(bloco.x, bloco.y + bloco.altura, 0.0);
     glEnd();
 }
-
+//Inicializa variáveis dos zumbis
 void inicializaInimigos(){
     inicializaMovimentoPadrao(movimentoPadrao);
 
@@ -137,7 +136,7 @@ void inicializaInimigos(){
         x = x + espacamento + largura;
     }
 }
-
+//Inicializa o jogo como um todo
 void inicializa() {
     inicializaAtirador(atirador);
     inicializaMunicaoJogador(municaoJogador);
@@ -153,9 +152,10 @@ void inicializa() {
     idTexturaDisparo = carregaTextura("pictures/municao.png");
     idTexturaDisparoZumbi = carregaTextura("pictures/tiro_zumbi.png");
     idTexturaFundo = carregaTextura("pictures/fundo.png");
+
     movimentoAtirar();
 }
-
+//Função para verificar colisão de dois objetos
 bool colisao(float Ax, float Ay, float Alarg, float Aalt, float Bx, float By, float Blarg, float Balt) {
     if(Ay + Aalt < By) return false;
     else if(Ay > By+Balt) return false;
@@ -163,7 +163,7 @@ bool colisao(float Ax, float Ay, float Alarg, float Aalt, float Bx, float By, fl
     else if(Ax > Bx+Blarg) return false;
     return true;
 }
-
+//Desenha vetor de zumbis
 void desenhaInimigos(){
     for(int i = 0; i < qtdzumbis; i++){
         if(zumbis[i].visivel){
@@ -171,15 +171,15 @@ void desenhaInimigos(){
         }
     }
 }
-
+//Seta parâmetros para nova faae
 void novaFase(){
     fase += 1;
     vida +=1;
     SoundEngine->play2D("sounds/levelup.mp3", false);
     inicializaInimigos();
-    movimentoPadrao.velocidade += fase*0.5;
+    movimentoPadrao.velocidade += fase*0.4;
 }
-
+//Desenha e define limites para disparo do jogador
 void desenhaDisparoJogador(){
     if(disparou && !pausado){
         if(municaoJogador.y <= (600 - municaoJogador.altura - municaoJogador.velocidade)){
@@ -188,7 +188,6 @@ void desenhaDisparoJogador(){
                 if(zumbis[i].visivel)
                     if(colisao(municaoJogador.x, municaoJogador.y, municaoJogador.largura, municaoJogador.altura, zumbis[i].x, zumbis[i].y, zumbis[i].largura, zumbis[i].altura) == true) {
                         disparou = false;
-                        pontuacao++;
                         zumbis[i].visivel = false;
                         SoundEngine->play2D("sounds/zumbi_morte.mp3", false);
 
@@ -207,7 +206,7 @@ void desenhaDisparoJogador(){
         desenhaBloco(municaoJogador);
     }
 }
-
+//Define tiro do jogador
 void atirar(){
     if(!disparou){
         disparou = true;
@@ -216,7 +215,7 @@ void atirar(){
         SoundEngine->play2D("sounds/gun-shot.mp3", false);
     }
 }
-
+//Desenha e define limites para disparo do zumbi
 void desenhaDisparoZumbi(){
     if(disparouZumbi){
         if(municaoZumbi.y >= 0){
@@ -239,7 +238,7 @@ void desenhaDisparoZumbi(){
         desenhaBloco(municaoZumbi);
     }
 }
-
+//Define tiro do zumbi
 void atirarZumbi(int periodo){
     int zumbiAtirador;
 
@@ -265,11 +264,8 @@ void textoTelaPause(){
         escreveTexto(GLUT_BITMAP_HELVETICA_18,   "Use <-, -> para controle", 200, 280, 0);
         escreveTexto(GLUT_BITMAP_HELVETICA_18,   "    (P) para play/pause", 200, 260, 0);
     }
-    if(terminou){
-        escreveTexto(GLUT_BITMAP_TIMES_ROMAN_24,   "Game Over", 250, 330, 0);
-    }
 }
-
+//Verifica se zumbis chegaram ao fim da tela
 void verificaFimJogo(){
     if(!pausado)
         for(int i = 0; i < qtdzumbis; i++){
@@ -316,7 +312,7 @@ void desenha() {
 
     glutSwapBuffers();
 }
-
+//Atualiza os objetos na tela
 void atualizaCena(int periodo){
     //Atualizar a tela
     if(!pausado){
@@ -336,7 +332,7 @@ void atualizaCena(int periodo){
     glutTimerFunc(periodo, atualizaCena, periodo);
     }
 
-
+//Captura ativação das setas
 void teclas_de_seta (int tecla, int x, int y ){
     if(!pausado){
         switch ( tecla ) {
@@ -351,7 +347,7 @@ void teclas_de_seta (int tecla, int x, int y ){
       }
     }
 }
-
+//Reinicializa parâmetros do jogo
 void reiniciaGame(){
     terminou = false;
     vida = 1;
@@ -359,10 +355,12 @@ void reiniciaGame(){
     inicializa();
     desenha();
 }
-
+//Captura demais teclas
 void teclado(unsigned char key, int x, int y) {
+    //Tecla ESC
     if(key == 27)
         exit(0);
+    //Tecla ESPACO
     if(key == 32) {
         //Espaco atira
         if(!pausado){
@@ -373,7 +371,7 @@ void teclado(unsigned char key, int x, int y) {
         else
             return;
     }
-
+    //Tecla P
     if(key == 112 && !terminou){
         if(!pausado){
             pausado = true;
@@ -385,12 +383,12 @@ void teclado(unsigned char key, int x, int y) {
             return;
         }
     }
-
+    //Tecla R
      if(key == 114){
         reiniciaGame();
      }
 }
-
+//Redimensiona janela
 void redimensiona(int w, int h) {
     glViewport(0, 0, w, h);
 
