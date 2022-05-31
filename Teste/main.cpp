@@ -29,34 +29,8 @@ char textoFase[8], textoVida[8];
 bool pausado = true, terminou = false, disparou = false, disparouZumbi = false, reiniciar = false;
 int pontuacao = 1;
 
-//Efeitos Sonoros
-void gunHitSound(){
-    SoundEngine->play2D("sounds/zumbi_morte.mp3", false);
-}
-
-void atiradorHitSound(){
-    SoundEngine->play2D("sounds/atirador_morte.mp3", false);
-}
-
-void soundTrack(){
-    SoundEngine->play2D("sounds/soundtrack.mp3", true);
-}
-
-void gameoverSound(){
-    SoundEngine->play2D("sounds/gameover.mp3", false);
-}
-
-void gamestartSound(){
-    SoundEngine->play2D("sounds/gamestart.mp3", false);
-}
-
-void levelUpSound(){
-    SoundEngine->play2D("sounds/levelup.mp3", false);
-}
-
-
 void fimDeJogo(){
-    gameoverSound();
+    SoundEngine->play2D("sounds/gameover.mp3", false);
     terminou = true;
     pausado = true;
 }
@@ -104,9 +78,21 @@ void movimentoInimigo(){
         }
 }
 
+//Efeitos Sonoros
+void gunHitSound(){
+    SoundEngine->play2D("sounds/gun-hit.mp3", false);
+}
+
+void soundTrack(){
+    SoundEngine->play2D("sounds/soundtrack.mp3", true);
+}
 
 void movimentoAtirar(){
     idTexturaAtirador = carregaTextura("pictures/atirando.png");
+}
+
+void morteZumbiSound(){
+
 }
 
 void desenhaBloco(Bloco bloco){
@@ -188,8 +174,8 @@ void desenhaInimigos(){
 
 void novaFase(){
     fase += 1;
-    vida += 1 ;
-    levelUpSound();
+    vida +=1;
+    SoundEngine->play2D("sounds/levelup.mp3", false);
     inicializaInimigos();
     movimentoPadrao.velocidade += fase*0.5;
 }
@@ -204,7 +190,7 @@ void desenhaDisparoJogador(){
                         disparou = false;
                         pontuacao++;
                         zumbis[i].visivel = false;
-                        gunHitSound();
+                        SoundEngine->play2D("sounds/zumbi_morte.mp3", false);
 
                         if(blocosApagados(zumbis,qtdzumbis)){
                             novaFase();
@@ -237,11 +223,13 @@ void desenhaDisparoZumbi(){
             municaoZumbi.y -= municaoZumbi.velocidade;
             if(colisao(municaoZumbi.x, municaoZumbi.y, municaoZumbi.largura, municaoZumbi.altura, atirador.x, atirador.y, atirador.largura, atirador.altura) == true) {
                 disparouZumbi = false;
-                atiradorHitSound();
+                gunHitSound();
                 vida--;
-                if(vida == 0)
-                    fimDeJogo();
 
+                if(vida == 0){
+                    SoundEngine->play2D("sounds/atirador_morte.mp3", false);
+                    fimDeJogo();
+                }
             }
         }else {
             disparouZumbi = false;
@@ -263,7 +251,7 @@ void atirarZumbi(int periodo){
         disparouZumbi = true;
         municaoZumbi.x = zumbis[zumbiAtirador].x + 25;
         municaoZumbi.y = zumbis[zumbiAtirador].y - 10;
-        SoundEngine->play2D("sounds/gun-shot.mp3", false);
+        SoundEngine->play2D("sounds/tiro_zumbi.mp3", false);
     }
 
     glutPostRedisplay();
@@ -315,16 +303,16 @@ void desenha() {
     desenhaBloco(atirador);
     glDisable(GL_TEXTURE_2D);
 
-    //Mostra textos na tela
-    sprintf(textoFase, "Fase: %d", fase);
-    escreveTexto(GLUT_BITMAP_HELVETICA_18, textoFase, 5, 5, 0);
-
-    sprintf(textoVida, "Vidas: %d", vida);
-    escreveTexto(GLUT_BITMAP_HELVETICA_18, textoVida, 75, 5, 0);
-
     textoTelaPause();
 
     verificaFimJogo();
+
+    //Mostra texto ao pausar a fase atual
+    sprintf(textoFase, "Fase: %d", fase);
+    escreveTexto(GLUT_BITMAP_HELVETICA_18, textoFase, 5, 5, 0);
+
+    sprintf(textoVida, " Vida: %d", vida);
+    escreveTexto(GLUT_BITMAP_HELVETICA_18, textoVida, 75, 5, 0);
 
     glutSwapBuffers();
 }
@@ -342,11 +330,6 @@ void atualizaCena(int periodo){
                 }
             }
         }
-
-        /*if (pontuacao == 0) {
-            //exit(0);
-            fimDeJogo();
-        }*/
     }
 
     glutPostRedisplay();
@@ -371,9 +354,8 @@ void teclas_de_seta (int tecla, int x, int y ){
 
 void reiniciaGame(){
     terminou = false;
-    pontuacao = 0;
-    fase = 0;
     vida = 1;
+    fase = 1;
     inicializa();
     desenha();
 }
@@ -397,10 +379,9 @@ void teclado(unsigned char key, int x, int y) {
             pausado = true;
             return;
         }
-        if(pausado){
+        if(pausado && vida != 0){
+            SoundEngine->play2D("sounds/gamestart.mp3", false);
             pausado = false;
-            gamestartSound();
-            escreveTexto(GLUT_BITMAP_HELVETICA_18, "PAUSADO", 100, 420, 1);
             return;
         }
     }

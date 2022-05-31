@@ -40,7 +40,7 @@
 
 1652302663 c:\users\pablo\desktop\faculdade\computacao grafica\teste\include\bloco.h
 
-1653524828 source:c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\main.cpp
+1653426335 source:c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\main.cpp
 	<SOIL/SOIL.h>
 	<GL/glew.h>
 	<GL/freeglut.h>
@@ -435,17 +435,9 @@
 
 1653337170 c:\users\pablo\desktop\tp1-cg-galaxie_game\teste\include\movimentopadrao.h
 
-1653521560 c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\include\movimentopadrao.h
+1653409027 c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\include\movimentopadrao.h
 
-1653522050 source:c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\src\movimentopadrao.cpp
-	<SOIL/SOIL.h>
-	<GL/glew.h>
-	<GL/freeglut.h>
-	<stdlib.h>
-	<stdio.h>
-	<irrKlang.h>
-	<string.h>
-	"Bloco.h"
+1653426264 source:c:\users\guilh\onedrive\engenharia comp\computação grafica\tp1_jogo\tp1-cg-galaxie_game\teste\src\movimentopadrao.cpp
 	"MovimentoPadrao.h"
 
 1653488568 source:c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\main.cpp
@@ -581,5 +573,26 @@
 	"Bloco.h"
 
 1653487795 source:c:\users\rebeca\downloads\tp1-cg-galaxie_game\teste\src\movimentopadrao.cpp
+	"MovimentoPadrao.h"
+
+1654018379 source:c:\users\guilh\downloads\tp1-cg-galaxie_game-6ff552ad072737ffd2c85f60371859eadd5ad167\tp1-cg-galaxie_game-6ff552ad072737ffd2c85f60371859eadd5ad167\teste\main.cpp
+	<SOIL/SOIL.h>
+	<GL/glew.h>
+	<GL/freeglut.h>
+	<stdlib.h>
+	<stdio.h>
+	<irrKlang.h>
+	<string.h>
+	"Bloco.h"
+	"MovimentoPadrao.h"
+
+1654014222 c:\users\guilh\downloads\tp1-cg-galaxie_game-6ff552ad072737ffd2c85f60371859eadd5ad167\tp1-cg-galaxie_game-6ff552ad072737ffd2c85f60371859eadd5ad167\teste\include\bloco.h
+
+1654014222 c:\users\guilh\downloads\tp1-cg-galaxie_game-6ff552ad072737ffd2c85f60371859eadd5ad167\tp1-cg-galaxie_game-6ff552ad072737ffd2c85f60371859eadd5ad167\teste\include\movimentopadrao.h
+
+1654014223 source:c:\users\guilh\downloads\tp1-cg-galaxie_game-6ff552ad072737ffd2c85f60371859eadd5ad167\tp1-cg-galaxie_game-6ff552ad072737ffd2c85f60371859eadd5ad167\teste\src\bloco.cpp
+	"Bloco.h"
+
+1654014223 source:c:\users\guilh\downloads\tp1-cg-galaxie_game-6ff552ad072737ffd2c85f60371859eadd5ad167\tp1-cg-galaxie_game-6ff552ad072737ffd2c85f60371859eadd5ad167\teste\src\movimentopadrao.cpp
 	"MovimentoPadrao.h"
 
